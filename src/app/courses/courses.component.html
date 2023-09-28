@@ -1,0 +1,62 @@
+<div *ngIf="courses?.length > 0; else noCourses">
+    <ul>
+        <li *ngFor="let course of courses">
+            <h3>{{ course.courseName }}</h3>
+            <p>Start Date: {{ course.startDate | date }}</p>
+            <p *ngIf="course.endDate">End Date: {{ course.endDate | date }}</p>
+            <p>Monthly Fee: {{ course.monthlyFee }}</p>
+            <p>Teacher: {{ course.teacher.name }}</p> <!-- assuming teacher has a name property -->
+            <p>Description: {{ course.description }}</p>
+            
+            <!-- Button to edit or remove a course can be added here if needed -->
+            <!-- <button (click)="editCourse(course.id)">Edit</button>
+                 <button (click)="removeCourse(course.id)">Remove</button> -->
+        </li>
+    </ul>
+</div>
+
+<ng-template #noCourses>
+    <p>No courses. Do you want to add one?</p>
+    <button (click)="addCourse()">Add Course</button>
+</ng-template>
+
+<div *ngIf="showAddCourseForm">
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="courseName">Course Name:</label>
+            <input id="courseName" type="text" formControlName="courseName">
+        </div>
+
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" formControlName="description"></textarea>
+        </div>
+
+        <div>
+            <label for="startDate">Start Date:</label>
+            <input id="startDate" type="date" formControlName="startDate">
+        </div>
+
+        <div>
+            <label for="endDate">End Date:</label>
+            <input id="endDate" type="date" formControlName="endDate">
+        </div>
+
+        <div>
+            <label for="teacher">Teacher:</label>
+            <select id="teacher" formControlName="teacherId">
+                <option *ngFor="let teacherName of teachers" [value]="teacherName">{{ teacherName }}</option>
+            </select>
+        </div>
+        <div>
+            <label for="monthlyFee">Monthly Fee:</label>
+            <input id="monthlyFee" type="number" formControlName="monthlyFee">
+        </div>
+
+        <!-- Add more form fields as needed -->
+
+        <button type="submit">Save Course</button>
+    </form>
+</div>
+
+
