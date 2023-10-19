@@ -1,24 +1,20 @@
-<div *ngIf="courses?.length > 0; else noCourses">
-    <ul>
-        <li *ngFor="let course of courses">
-            <h3>{{ course.courseName }}</h3>
-            <p>Start Date: {{ course.startDate | date }}</p>
-            <p *ngIf="course.endDate">End Date: {{ course.endDate | date }}</p>
-            <p>Monthly Fee: {{ course.monthlyFee }}</p>
-            <p>Teacher: {{ course.teacher.name }}</p> <!-- assuming teacher has a name property -->
-            <p>Description: {{ course.description }}</p>
-            
-            <!-- Button to edit or remove a course can be added here if needed -->
-            <!-- <button (click)="editCourse(course.id)">Edit</button>
-                 <button (click)="removeCourse(course.id)">Remove</button> -->
-        </li>
-    </ul>
+<div *ngIf="courses.length">
+    <div *ngFor="let course of courses">
+        <h3>{{ course.courseName }}</h3>
+        <p><strong>Description:</strong> {{ course.description }}</p>
+        <p><strong>Start Date:</strong> {{ course.startDate }}</p>
+        <p><strong>End Date:</strong> {{ course.endDate }}</p>
+        <p><strong>Monthly Fee:</strong> {{ course.monthlyFee }}</p>
+    </div>
 </div>
 
-<ng-template #noCourses>
-    <p>No courses. Do you want to add one?</p>
-    <button (click)="addCourse()">Add Course</button>
-</ng-template>
+<!-- Display the message if there are no courses -->
+<div *ngIf="!courses?.length">
+    <p>No courses found. Would you like to add a new course?</p>
+</div>
+
+<!-- Always display the "Add New Course" button -->
+<button (click)="toggleAddCourseForm()">Add New Course</button>
 
 <div *ngIf="showAddCourseForm">
     <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
@@ -42,12 +38,12 @@
             <input id="endDate" type="date" formControlName="endDate">
         </div>
 
-        <div>
+      <!-- <div>
             <label for="teacher">Teacher:</label>
             <select id="teacher" formControlName="teacherId">
-                <option *ngFor="let teacherName of teachers" [value]="teacherName">{{ teacherName }}</option>
+                <option *ngFor="let teacher of teachers" [value]="teacher.firstName">{{ teacher.firstName }}</option>
             </select>
-        </div>
+        </div>-->
         <div>
             <label for="monthlyFee">Monthly Fee:</label>
             <input id="monthlyFee" type="number" formControlName="monthlyFee">

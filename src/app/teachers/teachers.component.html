@@ -1,13 +1,28 @@
-<!-- Display teachers if they exist -->
-<!-- Loop over each teacher and display their properties -->
+<!-- Display teachers in a table format if they exist -->
 <div *ngIf="teachers.length">
-    <div *ngFor="let teacher of teachers">
-        <h3>{{ teacher.firstName }} {{ teacher.lastName }}</h3>
-        <p><strong>Date of Birth:</strong> {{ teacher.dateOfBirth }}</p>
-        <p><strong>Address:</strong> {{ teacher.address }}</p>
-        <p><strong>Phone Number:</strong> {{ teacher.phoneNumber }}</p>
-        <!-- ... Add other properties as needed ... -->
-    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let teacher of teachers">
+                <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
+                <td>{{ teacher.dateOfBirth }}</td>
+                <td>{{ teacher.address }}</td>
+                <td>{{ teacher.phoneNumber }}</td>
+                <td>
+                    <!-- More Info button that navigates to the teacher's profile page -->
+                    <button [routerLink]="['/teacher', teacher.id]">More Info</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- Display the message if there are no teachers -->
@@ -26,7 +41,18 @@
             <label for="firstName">Name:</label>
             <input type="text" [(ngModel)]="newTeacher.firstName" name="firstName" id="firstName">
         </div>
-        <!-- Add other fields for teacher details -->
+        <div>
+            <label for="dob">Date of Birth:</label>
+            <input type="date" [(ngModel)]="newTeacher.dateOfBirth" name="dateOfBirth" id="dateOfBirth">
+        </div>
+        <div>
+            <label for="dob">Address:</label>
+            <input type="text" [(ngModel)]="newTeacher.address" name="address" id="address">
+        </div>
+        <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" [(ngModel)]="newTeacher.phoneNumber" name="phone" id="phone">
+        </div>
         <div>
             <button type="submit">Submit</button>
         </div>

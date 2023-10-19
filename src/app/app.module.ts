@@ -10,6 +10,7 @@ import { StudentCoursesComponent } from './student-courses/student-courses.compo
 import { TeacherComponent } from './teachers/teachers.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { TeacherProfileComponent } from './teacher-profile/teacher-profile.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     PaymentsComponent,
     StudentsComponent,
     StudentCoursesComponent,
-    TeacherComponent
+    TeacherComponent,
+    TeacherProfileComponent
   ],
   imports: [
     BrowserModule,

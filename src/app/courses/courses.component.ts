@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../services/course.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Teacher } from '../teachers/teacher.model';
+import { TeacherService } from '../services/teacher.service';
+import { Course } from '../models/Course.model';
 
 @Component({
   selector: 'app-courses',
@@ -10,20 +13,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CoursesComponent implements OnInit {
   
-  courses: any;
+  courses: Course[] = [];
   showAddCourseForm: boolean = false;
   courseForm!: FormGroup;
-  teachers: string[] = ["Aizhan", "John", "Jane"];
-
+  teachers: Teacher[] = [];
 
   constructor(private courseService: CourseService, private router: Router,
-    private fb: FormBuilder) {
+    private fb: FormBuilder, private teacherService: TeacherService) {
     this.createForm();
   }
 
   ngOnInit(): void {
+    this.fetchTeachers();
     this.getCourses();
   }
+
+  fetchTeachers(): void {
+    this.teacherService.getAllTeachers().subscribe(
+      data => {
+        this.teachers = data;
+      },
+      error => {
+        console.error('Error fetching teachers:', error);
+      }
+    );
+}
+
+toggleAddCourseForm() {
+  this.showAddCourseForm = !this.showAddCourseForm; // Toggle the form visibility.
+}
 
   getCourses(): void {
     this.courseService.getAllCourses()
@@ -47,7 +65,7 @@ createForm() {
       description: [''],
       startDate: ['', Validators.required],
       endDate: [''],
-      teacherId: ['', Validators.required],
+      //teacherId: ['', Validators.required],
       monthlyFee: ['', Validators.required],
       // Add more fields as needed
   });

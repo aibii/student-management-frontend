@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TeacherService } from '../services/teacher.service';
 import { Teacher } from './teacher.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-teacher',
@@ -13,14 +15,16 @@ export class TeacherComponent implements OnInit {
   newTeacher: Teacher = {
     firstName: '',
     lastName: '',
-    dateOfBirth: '',  // initialize with an empty string or a default value
+    dateOfBirth: '',
     address: '',
     phoneNumber: ''
     // ... initialize other properties as needed ...
-};
+    ,
+    id: 0
+  };
 
 
-  constructor(private teacherService: TeacherService) { }
+  constructor(private teacherService: TeacherService, private router: Router) { }
 
   showAddTeacherForm = false;
 
@@ -41,6 +45,11 @@ export class TeacherComponent implements OnInit {
       }
     );
   }
+
+  viewTeacherProfile(teacherId: number): void {
+    // Assuming the route for a single teacher's profile is '/teacher/:id'
+    this.router.navigate(['/teacher', teacherId]);
+}
 
   toggleAddTeacherForm() {
     this.showAddTeacherForm = !this.showAddTeacherForm; // Toggle the form visibility.

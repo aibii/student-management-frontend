@@ -16,20 +16,22 @@ export class TeacherService {
     return this.http.get(`${this.baseUrl}`);
   }
 
-  getTeacherById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
-  }
+  getTeacherById(id: number): Observable<Teacher> {
+    return this.http.get<Teacher>(`${this.baseUrl}/${id}`);
+}
 
   createTeacher(teacher: Teacher): Observable<Teacher> {
     return this.http.post<Teacher>(`${this.baseUrl}`, teacher);
 }
 
-  updateTeacher(id: number, teacher: any): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/${id}`, teacher);
+  updateTeacher(id: number, teacher: Teacher): Observable<Teacher> {
+    //const url = `${this.baseUrl}/teachers/${id}`;
+    return this.http.put<Teacher>((`${this.baseUrl}/${id}`), teacher);
   }
 
   deleteTeacher(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
 }
 

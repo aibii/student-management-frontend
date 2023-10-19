@@ -1,0 +1,39 @@
+
+<div *ngIf="teacher">
+    <p>
+        <strong>First Name</strong>
+        <input [(ngModel)]="teacher.firstName" name="firstName">
+    </p>
+    <p>
+        <strong>Last Name</strong>
+        <input [(ngModel)]="teacher.lastName" name="lastName">
+    </p>
+    <p>
+        <strong>Date of Birth:</strong> 
+        <input type="date" [(ngModel)]="teacher.dateOfBirth" name="dateOfBirth">
+    </p>
+    <p>
+        <strong>Address:</strong> 
+        <input [(ngModel)]="teacher.address" name="address">
+    </p>
+    <p>
+        <strong>Phone Number:</strong> 
+        <input [(ngModel)]="teacher.phoneNumber" name="phoneNumber">
+    </p>
+    <!-- Save and Delete Buttons -->
+    <button (click)="saveTeacher()">Save</button>   
+    <button (click)="deleteTeacher()">Delete</button>
+</div>
+
+<div *ngIf="!teacher">
+    <p>Teacher not found!</p>
+</div>
+
+<!-- Display error message if it exists -->
+<div *ngIf="errorMessage">
+    <p>Error: {{ errorMessage }}</p>
+</div>
+
+<div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+</div>
