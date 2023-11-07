@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TeacherService } from '../services/teacher.service';
-import { Teacher } from './teacher.model';
+import { Teacher } from '../models/Teacher.model';
 import { Router } from '@angular/router';
 
 
@@ -27,6 +27,9 @@ export class TeacherComponent implements OnInit {
   constructor(private teacherService: TeacherService, private router: Router) { }
 
   showAddTeacherForm = false;
+  sortColumn: string = ''; // 'name' or 'dob'
+  sortDirection: 'asc' | 'desc' = 'asc'; // or 'desc'
+
 
 
   ngOnInit(): void {
@@ -83,5 +86,40 @@ export class TeacherComponent implements OnInit {
         console.warn('Teacher name is required.');
     }
 }
+
+// Adjust this function to correctly compare string and date values
+compareValues(key: string, order = 'asc') {
+  return function innerSort(a: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }, b: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+}
+
+sortData(column: string): void {
+  this.sortColumn = column;
+  this.sortDirection = (this.sortColumn === column && this.sortDirection === 'asc') ? 'desc' : 'asc';
+  if (column === 'name') {
+    this.teachers.sort(this.compareValues('firstName', this.sortDirection));
+  } else {
+    // For dateOfBirth, ensure correct date comparison
+    this.teachers.sort(this.compareValues('dateOfBirth', this.sortDirection));
+  }
+}
+
 }
 

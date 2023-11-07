@@ -5,6 +5,8 @@
         <p><strong>Start Date:</strong> {{ course.startDate }}</p>
         <p><strong>End Date:</strong> {{ course.endDate }}</p>
         <p><strong>Monthly Fee:</strong> {{ course.monthlyFee }}</p>
+        <!-- Edit and Delete buttons -->
+        <a [routerLink]="['/course-details', course.id]">Edit/Delete</a>
     </div>
 </div>
 
@@ -17,7 +19,7 @@
 <button (click)="toggleAddCourseForm()">Add New Course</button>
 
 <div *ngIf="showAddCourseForm">
-    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="courseForm" (ngSubmit)="saveCourse()">
         <div>
             <label for="courseName">Course Name:</label>
             <input id="courseName" type="text" formControlName="courseName">

@@ -3,8 +3,14 @@
     <table border="1">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Date of Birth</th>
+                <th (click)="sortData('name')" [class.sorted]="sortColumn === 'name'">
+                    Name
+                    <span *ngIf="sortColumn === 'name'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                  </th>
+                  <th (click)="sortData('dob')" [class.sorted]="sortColumn === 'dob'">
+                    Date of Birth
+                    <span *ngIf="sortColumn === 'dob'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                  </th>                  
                 <th>Address</th>
                 <th>Phone Number</th>
                 <th>Actions</th>

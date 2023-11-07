@@ -1,0 +1,42 @@
+<!-- Course Editing Form -->
+<form [formGroup]="courseForm" (ngSubmit)="saveCourse()">
+  
+    <!-- Course Name -->
+    <div>
+      <label for="courseName">Course Name:</label>
+      <input id="courseName" type="text" formControlName="courseName">
+    </div>
+  
+    <!-- Description -->
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+  
+    <!-- Start Date -->
+    <div>
+      <label for="startDate">Start Date:</label>
+      <input id="startDate" type="date" formControlName="startDate">
+    </div>
+  
+    <!-- End Date -->
+    <div>
+      <label for="endDate">End Date:</label>
+      <input id="endDate" type="date" formControlName="endDate">
+    </div>
+  
+    <!-- Monthly Fee -->
+    <div>
+      <label for="monthlyFee">Monthly Fee:</label>
+      <input id="monthlyFee" type="number" formControlName="monthlyFee">
+    </div>
+  
+    <!-- You can add more fields based on your Course model -->
+  
+    <!-- Submit Button -->
+    <button type="submit">Save</button>
+  </form>
+  
+  <!-- Delete Button -->
+  <button (click)="deleteCourse()">Delete Course</button>
+  

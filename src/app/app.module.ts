@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { StudentsComponent } from './students/students.component';
+import { StudentComponent } from './students/students.component';
 import { StudentCoursesComponent } from './student-courses/student-courses.component';
 import { TeacherComponent } from './teachers/teachers.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { TeacherProfileComponent } from './teacher-profile/teacher-profile.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
+import { StudentDetailsComponent } from './student-details/student-details.component';
 
 
 @NgModule({
@@ -18,10 +20,12 @@ import { TeacherProfileComponent } from './teacher-profile/teacher-profile.compo
     AppComponent,
     CoursesComponent,
     PaymentsComponent,
-    StudentsComponent,
+    StudentComponent,
     StudentCoursesComponent,
     TeacherComponent,
-    TeacherProfileComponent
+    TeacherProfileComponent,
+    CourseDetailsComponent,
+    StudentDetailsComponent
   ],
   imports: [
     BrowserModule,

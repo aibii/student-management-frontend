@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../services/course.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Teacher } from '../teachers/teacher.model';
+import { Teacher } from '../models/Teacher.model';
 import { TeacherService } from '../services/teacher.service';
 import { Course } from '../models/Course.model';
 
@@ -17,6 +17,7 @@ export class CoursesComponent implements OnInit {
   showAddCourseForm: boolean = false;
   courseForm!: FormGroup;
   teachers: Teacher[] = [];
+  editingCourseId: number | null = null;
 
   constructor(private courseService: CourseService, private router: Router,
     private fb: FormBuilder, private teacherService: TeacherService) {
@@ -52,11 +53,24 @@ toggleAddCourseForm() {
     this.showAddCourseForm = true;
 }
 
-saveCourse(courseData: any) {
-    this.courseService.addCourse(courseData).subscribe(newCourse => {
-        this.courses.push(newCourse);
-        this.showAddCourseForm = false;
-    });
+saveCourse() {
+  let courseData = this.courseForm.value;
+
+  if (this.editingCourseId) {
+    // Update an existing course
+    this.courseService.updateCourse(this.editingCourseId, courseData).subscribe(
+      updatedCourse => {
+        // Update the course in your courses array
+        // Hide the form, reset the editingCourseId, etc.
+        // ...
+      },
+      error => console.error('Error updating course:', error)
+    );
+  } else {
+    // Add a new course
+    // Your existing code for adding a new course
+    // ...
+  }
 }
 
 createForm() {
@@ -87,5 +101,31 @@ onSubmit() {
   }
 }
   // Implement methods for other CRUD operations here...
+  editCourse(course: any) {
+    // Populate the courseForm with the course data to edit
+    this.courseForm.setValue({
+      courseName: course.courseName,
+      description: course.description,
+      startDate: course.startDate,
+      endDate: course.endDate,
+      monthlyFee: course.monthlyFee
+      // add other fields as necessary
+    });
+    
+    this.editingCourseId = course.id; // Keep track of the editing course's ID
+    this.showAddCourseForm = true; // Show the form
+  }
+  
+  deleteCourse(courseId: number) {
+    this.courseService.deleteCourse(courseId).subscribe(
+      () => {
+        console.log(`Course with id=${courseId} deleted`);
+        this.courses = this.courses.filter(course => course.id !== courseId); // Remove the course from the array
+      },
+      error => console.error(`Error deleting course with id=${courseId}:`, error)
+    );
+  }
+  
 }
+
 
