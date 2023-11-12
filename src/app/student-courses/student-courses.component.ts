@@ -27,30 +27,61 @@ export class StudentCoursesComponent implements OnInit {
   newGroup: any = {
     groupName: '',
     description: '',
-    leader: ''
+    teacherId: null,  // Initialize as number
+    courseId: null,   // Initialize as number
+    startDate: '',
+    endDate: '',
   };
 
   submitGroup(form: NgForm) {
-    if (form.valid) {
-      this.groupService.createStudentCourse(this.newGroup).subscribe({
-        next: (response) => {
-          // Handle the response, maybe clear the form or give user feedback
-          console.log('Group created:', response);
+  const startDate = new Date(this.newGroup.startDate);
+  const endDate = new Date(this.newGroup.endDate);
   
-          // Update the studentCourses array with the new group
-          this.studentCourses.push(response);
-  
-          this.showAddGroupForm = false; // Hide the form upon successful save
-          form.reset(); // Reset the form if needed
-        },
-        error: (error) => {
-          // Handle any errors here
-          console.error('There was an error creating the group:', error);
-        }
-      });
-    }
+  if (this.newGroup.startDate > this.newGroup.endDate) {
+    console.error('End date must be after start date');
+    // Display an error message to the user
+    return;
   }
-  
+  if (!form.valid) {
+    console.log('Form is invalid');
+    // Optionally, display user-friendly messages or highlight invalid fields here
+    return;
+  }
+
+  this.newGroup.teacherId = Number(this.newGroup.teacherId);
+  this.newGroup.courseId = Number(this.newGroup.courseId);
+
+  // Validation for additional fields like dates and IDs
+  if (!this.newGroup.teacherId || !this.newGroup.courseId) {
+    console.error('Missing required fields');
+    // Display an error message to the user
+    return;
+  }
+
+  // Additional formatting or checks can be performed here
+
+  this.sendGroupData(form);
+}
+
+sendGroupData(form: NgForm) {
+  this.groupService.createStudentCourse(this.newGroup).subscribe({
+    next: (response) => this.handleSuccess(response, form),
+    error: (error) => this.handleError(error)
+  });
+}
+
+  handleError(error: any) {
+    console.error('There was an error creating the group:', error);
+    // Display an error message to the user here
+  }
+
+  handleSuccess(response: any, form: NgForm) {
+    console.log('Group created:', response);
+    this.studentCourses.push(response); // Update your list
+    this.showAddGroupForm = false; // Hide the form
+    form.reset(); // Reset the form
+    // Optionally, display a success message to the user
+  }
   
   ngOnInit(): void {
     this.loadAllStudentCourses();

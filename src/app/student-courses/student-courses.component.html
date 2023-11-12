@@ -2,10 +2,21 @@
 <button (click)="showAddGroupForm = !showAddGroupForm">
     {{ showAddGroupForm ? 'Cancel' : 'Add a new group' }}
   </button>
+
+  <pre>{{ newGroup | json }}</pre>
+  <!-- Debugging form state -->
+
   
   <!-- Form for adding a new group, shown only when showAddGroupForm is true -->
   <div *ngIf="showAddGroupForm">
     <h3>Add New Group</h3>
+        <!-- Debugging form state -->
+    <pre>Form valid: {{ addGroupForm.valid }}</pre>
+    <pre>Form value: {{ newGroup | json }}</pre>
+    <!-- Debugging individual control state -->
+    <pre>Teacher Control Valid: {{ teacher.valid }}</pre>
+    <pre>Course Control Valid: {{ subject.valid }}</pre>
+
     <form #addGroupForm="ngForm" (ngSubmit)="submitGroup(addGroupForm.value)">
   
       <!-- Input for Group Name -->
@@ -18,32 +29,39 @@
       </div>
   
       <!-- Select box for Teachers -->
-      <div>
-        <label for="teacher">Teacher:</label>
-        <select id="teacher" name="teacher" [(ngModel)]="newGroup.teacher" #teacher="ngModel" required>
-          <option value="" disabled selected>Select a teacher</option>
-          <option *ngFor="let teacher of teachers" [value]="teacher.id">
-            {{ teacher.firstName }}
-          </option>
-        </select>
-      </div>
+      <!-- Select box for Teachers -->
+      <select id="teacher" name="teacher" [(ngModel)]="newGroup.teacherId" #teacher="ngModel" required>
+        <option value="" disabled selected>Select a teacher</option>
+        <option *ngFor="let teacher of teachers" [value]="teacher.id">
+          {{ teacher.firstName }} <!-- Displaying the teacher's first name -->
+        </option>
+      </select>
   
       <!-- Select box for Subjects -->
-      <div>
-        <label for="subject">Subject:</label>
-        <select id="subject" name="subject" [(ngModel)]="newGroup.subject" #subject="ngModel" required>
-          <option value="" disabled selected>Select a subject</option>
-          <option *ngFor="let course of courses" [value]="course.id">
-            {{ course.courseName }}
-          </option>
-        </select>
-      </div>
+      <select id="subject" name="subject" [(ngModel)]="newGroup.courseId" #subject="ngModel" required>
+        <option value="" disabled selected>Select a subject</option>
+        <option *ngFor="let course of courses" [value]="course.id">
+          {{ course.courseName }} <!-- Assuming each course has a courseName field -->
+        </option>
+      </select>      
   
       <!-- Input for Group Description -->
       <div>
         <label for="groupDescription">Description:</label>
         <textarea id="groupDescription" name="groupDescription" [(ngModel)]="newGroup.description" #groupDescription="ngModel"></textarea>
       </div>
+
+  <!-- Date Pickers for Start Date and End Date -->
+  <div>
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" [(ngModel)]="newGroup.startDate" #startDate="ngModel" required>
+  </div>
+
+<div>
+  <label for="endDate">End Date:</label>
+  <input type="date" id="endDate" name="endDate" [(ngModel)]="newGroup.endDate" #endDate="ngModel" required>
+</div>
+
   
       <!-- Submit Button -->
       <div>
