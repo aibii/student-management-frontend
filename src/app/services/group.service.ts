@@ -20,10 +20,10 @@ export class GroupService {
     return this.http.get<Group>(`${this.baseUrl}/${id}`);
   }
 
-  createGroup(group: Group): Observable<Group> {
+  createGroup(groupData: Group): Observable<Group> {
     // Your existing code to make the HTTP POST request
     // Ensure the URL and HTTP method are correct
-    return this.http.post<Group>(`[Your API Endpoint]`, group);
+    return this.http.post<Group>('http://localhost:8080/api/groups', groupData);
   }
 
   updateGroup(id: number, group: Group): Observable<Group> {

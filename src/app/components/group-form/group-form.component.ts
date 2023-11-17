@@ -35,9 +35,9 @@ export class GroupFormComponent implements OnInit {
   ngOnInit(): void {
     this.groupForm = this.fb.group({
       groupName: ['', Validators.required],
-      teacherId: ['', Validators.required],
+      teacher: ['', Validators.required],
       description: '',
-      courseId: ['', Validators.required],
+      course: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
     });
@@ -89,8 +89,8 @@ export class GroupFormComponent implements OnInit {
         description: formValue.description,
         startDate: formValue.startDate,
         endDate: formValue.endDate,
-        teacherId: formValue.teacherId,
-        courseId: formValue.courseId
+        teacher: formValue.teacher,
+        course: formValue.course
       };
   
       if (this.isEdit) {
@@ -104,6 +104,4 @@ export class GroupFormComponent implements OnInit {
       }
     }
   }
-  
-  
 }

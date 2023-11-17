@@ -4,9 +4,9 @@ import { Teacher } from "./Teacher.model";
 export interface Group {
   id?: number;
   groupName: string;
-  teacherId: number;
+  teacher: Teacher;
   description: string;
-  courseId: number;
+  course: Course;
   startDate: Date; // or Date
   endDate: Date;   // or Date
 }
