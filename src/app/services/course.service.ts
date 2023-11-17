@@ -24,10 +24,11 @@ export class CourseService {
     return this.http.post(`${this.baseUrl}`, course);
   }
 
-  updateCourse(id: number, course: any): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/${id}`, course);
-  }
-
+  updateCourse(courseId: number, courseData: Course): Observable<Course> {
+    // Use the baseUrl and append the courseId to it
+    return this.http.put<Course>(`${this.baseUrl}/${courseId}`, courseData);
+}
+  
   deleteCourse(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }

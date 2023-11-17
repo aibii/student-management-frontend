@@ -10,7 +10,7 @@ import { CourseService } from '../services/course.service';
   styleUrls: ['./course-details.component.css']
 })
 export class CourseDetailsComponent implements OnInit{
-  courseId!: number;
+  courseName!: number;
   course: Course | undefined; // Ensure this model matches your Course data structure
   courseForm!: FormGroup;
 
@@ -22,8 +22,8 @@ export class CourseDetailsComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.courseId = Number(this.route.snapshot.params['id']);
-    this.loadCourseDetails(this.courseId);
+    this.courseName = Number(this.route.snapshot.params['id']);
+    this.loadCourseDetails(this.courseName); // Pass courseName instead of course
 
     // Initialize courseForm
     this.courseForm = this.fb.group({
@@ -48,13 +48,15 @@ export class CourseDetailsComponent implements OnInit{
 
   saveCourse(): void {
     if (this.courseForm.valid) {
-      this.courseService.updateCourse(this.courseId, this.courseForm.value).subscribe(
-        response => {
-          console.log('Course updated successfully');
-          this.router.navigate(['/courses']); // Update with your course list route
-        },
-        error => console.error('Error updating course:', error)
-      );
+      if (this.course?.id) { // Add null check here
+        this.courseService.updateCourse(this.course.id, this.courseForm.value).subscribe(
+          response => {
+            console.log('Course updated successfully');
+            this.router.navigate(['/courses']); // Update with your course list route
+          },
+          error => console.error('Error updating course:', error)
+        );
+      }
     } else {
       console.error('Form is not valid:', this.courseForm.errors);
     }

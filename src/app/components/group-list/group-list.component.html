@@ -1,0 +1,32 @@
+<div class="container">
+    <h2>Group List</h2>
+    <a routerLink="/group/add" class="btn btn-primary">Add New Group</a>
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Group Name</th>
+          <th>Teacher</th>
+          <th>Course</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groups">
+          <td>{{ group.groupName }}</td>
+          <td>{{ group.teacher?.firstName }}</td> <!-- Adjust based on your model -->
+          <td>{{ group.course?.courseName }}</td> <!-- Adjust based on your model -->
+          <td>{{ group.description }}</td>
+          <td>{{ group.startDate | date }}</td>
+          <td>{{ group.endDate | date }}</td>
+          <td>
+            <a routerLink="/group/edit/{{ group.id }}" class="btn btn-warning">Edit</a>
+            <button *ngIf="group.id !== undefined" (click)="deleteGroup(group.id)" class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

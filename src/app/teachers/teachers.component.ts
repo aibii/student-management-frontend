@@ -49,9 +49,9 @@ export class TeacherComponent implements OnInit {
     );
   }
 
-  viewTeacherProfile(teacherId: number): void {
+  viewTeacherProfile(teacherName: number): void {
     // Assuming the route for a single teacher's profile is '/teacher/:id'
-    this.router.navigate(['/teacher', teacherId]);
+    this.router.navigate(['/teacher', teacherName]);
 }
 
   toggleAddTeacherForm() {
