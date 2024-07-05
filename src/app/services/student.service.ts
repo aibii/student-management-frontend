@@ -30,4 +30,9 @@ export class StudentService {
   deleteStudent(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  assignStudentToGroup(studentId: number, groupId: number): Observable<Object> {
+    return this.http.post(`${this.baseUrl}/${studentId}/groups/${groupId}`, {});
+  }
 }
+

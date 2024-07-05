@@ -15,6 +15,9 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
 import { GroupListComponent } from './components/group-list/group-list.component';
 import { GroupFormComponent } from './components/group-form/group-form.component';
 import { CommonModule } from '@angular/common';
+import { StudentAssignmentComponent } from './student-assignment/student-assignment.component';
+import { StudentService } from './services/student.service';
+import { GroupService } from './services/group.service';
 
 
 @NgModule({
@@ -28,7 +31,8 @@ import { CommonModule } from '@angular/common';
     CourseDetailsComponent,
     StudentDetailsComponent,
     GroupListComponent,
-    GroupFormComponent
+    GroupFormComponent,
+    StudentAssignmentComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule
   ],
-  providers: [],
+  providers: [StudentService, GroupService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
