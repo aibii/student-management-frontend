@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Student, Group } from '../models/Student.model';
 import { StudentService } from '../services/student.service';
+import { GroupService } from '../services/group.service';
+import { Student } from '../models/Student.model';
+import { Group } from '../models/Group.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-student',
@@ -9,147 +11,66 @@ import { StudentService } from '../services/student.service';
   styleUrls: ['./students.component.css']
 })
 export class StudentComponent implements OnInit {
+
   students: Student[] = [];
-  errorMessage: string = '';
-  newStudent: Student = {
-    id: 0,
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    address: '',
-    studentPhone: '',
-    parentPhone: ''
-  };
-
   groups: Group[] = [];
+  selectedStudent: Student | null = null;
   selectedGroupId: number | null = null;
-  selectedStudentId: number | null = null;
+  errorMessage: string | null = null;
 
-  viewStudentDetails(studentId: number): void {
-    this.router.navigate(['/student-details', studentId]);
-  }
-
-  showAddStudentForm = false;
-  sortColumn: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
-
-  constructor(private studentService: StudentService, private router: Router) { }
+  constructor(private studentService: StudentService, private groupService: GroupService) { }
 
   ngOnInit(): void {
-    this.fetchStudents();
-    this.fetchGroups();
+    this.loadStudents();
+    this.loadGroups();
   }
 
-  fetchStudents(): void {
-    this.studentService.getAllStudents().subscribe(
-      students => {
-        this.students = students;
-      },
-      error => {
-        this.errorMessage = 'Error fetching students';
-        console.error(error);
-      }
-    );
+  loadStudents(): void {
+    this.studentService.getAllStudents().subscribe(data => {
+      this.students = data;
+    }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
+      this.errorMessage = 'Failed to load students';
+    });
   }
 
-  fetchGroups(): void {
-    this.groups = [
-      { id: 1, groupName: 'Group 1' },
-      { id: 2, groupName: 'Group 2' }
-    ];
+  loadGroups(): void {
+    this.groupService.getAllGroups().subscribe(data => {
+      this.groups = data;
+    }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
+      this.errorMessage = 'Failed to load groups';
+    });
   }
 
-  toggleAddStudentForm() {
-    this.showAddStudentForm = !this.showAddStudentForm;
+  selectStudent(student: Student): void {
+    this.selectedStudent = student;
+    this.selectedGroupId = null; // Reset selected group
   }
 
-  addStudent(): void {
-    if (this.newStudent.firstName && this.newStudent.lastName) {
-      this.studentService.createStudent(this.newStudent).subscribe(
-        (response: any) => {
-          const student = response as Student;
-          this.students.push(student);
-          this.toggleAddStudentForm();
-          this.newStudent = {
-            id: 0,
-            firstName: '',
-            lastName: '',
-            dateOfBirth: '',
-            address: '',
-            studentPhone: '',
-            parentPhone: ''
-          };
-        },
-        error => {
-          this.errorMessage = 'Error adding student';
-          console.error('Error adding student:', error);
-        }
-      );
-    } else {
-      this.errorMessage = 'First name and last name are required.';
+  assignStudentToGroup(): void {
+    if (this.selectedStudent && this.selectedGroupId !== null) {
+      this.studentService.assignStudentToGroup(this.selectedStudent.id!, this.selectedGroupId).subscribe(() => {
+        this.loadStudentDetails(this.selectedStudent!.id!);
+      }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
+        this.errorMessage = 'Failed to assign student to group';
+      });
     }
   }
 
-  sortData(column: keyof Student): void {
-    this.sortColumn = column;
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    this.students.sort(this.compareValues(column, this.sortDirection));
-  }
-
-  compareValues(key: keyof Student, order: 'asc' | 'desc' = 'asc') {
-    return (a: Student, b: Student) => {
-      let varA = a[key];
-      let varB = b[key];
-
-      // Handle undefined cases
-      if (varA === undefined || varB === undefined) {
-        return 0;
-      }
-
-      // Adjust comparison for strings
-      if (typeof varA === 'string' && typeof varB === 'string') {
-        varA = varA.toUpperCase();
-        varB = varB.toUpperCase();
-      }
-
-      // Adjust comparison for Dates
-      if (varA instanceof Date && varB instanceof Date) {
-        varA = varA.getTime();
-        varB = varB.getTime();
-      }
-
-      let comparison = 0;
-      if (varA > varB) {
-        comparison = 1;
-      } else if (varA < varB) {
-        comparison = -1;
-      }
-
-      return (order === 'desc' ? comparison * -1 : comparison);
-    };
-  }
-
-  viewStudentProfile(studentId: number): void {
-    this.router.navigate(['/student', studentId]);
-  }
-
-  assignStudentToGroup(studentId: number | null): void {
-    if (studentId !== null && this.selectedGroupId !== null) {
-      this.studentService.assignStudentToGroup(studentId, this.selectedGroupId).subscribe(
-        (updatedStudent: Object) => {
-          const index = this.students.findIndex(student => student.id === studentId);
-          if (index !== -1) {
-            this.students[index] = updatedStudent as Student;
-          }
-        },
-        error => {
-          this.errorMessage = 'Error assigning student to group';
-          console.error('Error assigning student to group:', error);
-        }
-      );
-    } else {
-      this.errorMessage = 'Please select a student and a group.';
+  removeStudentFromGroup(groupId: number): void {
+    if (this.selectedStudent) {
+      this.studentService.removeStudentFromGroup(this.selectedStudent.id!, groupId).subscribe(() => {
+        this.loadStudentDetails(this.selectedStudent!.id!);
+      }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
+        this.errorMessage = 'Failed to remove student from group';
+      });
     }
+  }
+
+  loadStudentDetails(studentId: number): void {
+    this.studentService.getStudentById(studentId).subscribe(data => {
+      this.selectedStudent = data;
+    }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
+      this.errorMessage = 'Failed to load student details';
+    });
   }
 }
-

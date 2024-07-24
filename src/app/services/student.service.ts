@@ -1,6 +1,8 @@
+// student.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Student } from '../models/Student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,28 +13,33 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  getAllStudents(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getAllStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(`${this.baseUrl}`);
   }
 
-  getStudentById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getStudentById(id: number): Observable<Student> {
+    return this.http.get<Student>(`${this.baseUrl}/${id}`);
   }
 
-  createStudent(student: Object): Observable<Object> {
-    return this.http.post(`${this.baseUrl}`, student);
+  createStudent(student: Student): Observable<Student> {
+    return this.http.post<Student>(`${this.baseUrl}`, student);
   }
 
-  updateStudent(id: number, student: any): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/${id}`, student);
+  updateStudent(id: number, student: Student): Observable<Student> {
+    return this.http.put<Student>(`${this.baseUrl}/${id}`, student);
   }
 
-  deleteStudent(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  deleteStudent(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  assignStudentToGroup(studentId: number, groupId: number): Observable<Object> {
-    return this.http.post(`${this.baseUrl}/${studentId}/groups/${groupId}`, {});
+  assignStudentToGroup(studentId: number, groupId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/${studentId}/groups/${groupId}`, {});
+  }
+
+  removeStudentFromGroup(studentId: number, groupId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${studentId}/groups/${groupId}`);
   }
 }
+
 

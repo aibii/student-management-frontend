@@ -1,86 +1,58 @@
-<!-- Display students in a table format if they exist -->
-<div *ngIf="students.length">
-    <table border="1">
-        <thead>
-            <tr>
-                <th (click)="sortData('firstName')" [class.sorted]="sortColumn === 'firstName'">
-                    Name
-                    <span *ngIf="sortColumn === 'firstName'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-                </th>
-                <th (click)="sortData('dateOfBirth')" [class.sorted]="sortColumn === 'dob'">
-                    Date of Birth
-                    <span *ngIf="sortColumn === 'dateOfBirth'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
-                </th>
-                <th>Address</th>
-                <th>Student Phone</th>
-                <th>Parent Phone</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let student of students">
-                <td>{{ student.firstName }} {{ student.lastName }}</td>
-                <td>{{ student.dateOfBirth | date:'shortDate' }}</td>
-                <td>{{ student.address }}</td>
-                <td>{{ student.studentPhone }}</td>
-                <td>{{ student.parentPhone }}</td>
-                <td>
-                    <!-- More Info button that navigates to the student's profile page -->
-                    <button (click)="viewStudentDetails(student.id)">More Info</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- Display the message if there are no students -->
-<div *ngIf="!students?.length">
-    <p>No students found. Would you like to add a new student?</p>
-</div>
-
-<!-- Always display the "Add New Student" button -->
-<button (click)="toggleAddStudentForm()">Add New Student</button>
-
-<!-- Display the form only if showAddStudentForm is true -->
-<div *ngIf="showAddStudentForm" class="student-form">
-    <h3>Add New Student</h3>
-    <form (ngSubmit)="addStudent()">
-        <!-- Add form fields for new student details -->
-        <div>
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" [(ngModel)]="newStudent.firstName" name="firstName" required>
-        </div>
-        <div>
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" [(ngModel)]="newStudent.lastName" name="lastName" required>
-        </div>
-        <div>
-            <label for="dateOfBirth">Date of Birth:</label>
-            <input type="date" id="dateOfBirth" [(ngModel)]="newStudent.dateOfBirth" name="dateOfBirth">
-        </div>
-        <div>
-            <label for="address">Address:</label>
-            <input type="text" id="address" [(ngModel)]="newStudent.address" name="address">
-        </div>
-        <div>
-            <label for="studentPhone">Student Phone:</label>
-            <input type="tel" id="studentPhone" [(ngModel)]="newStudent.studentPhone" name="studentPhone">
-        </div>
-        <div>
-            <label for="parentPhone">Parent Phone:</label>
-            <input type="tel" id="parentPhone" [(ngModel)]="newStudent.parentPhone" name="parentPhone">
-        </div>
-        <!-- ... add other fields as necessary -->
-        <div>
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-</div>
-
-
-<!-- Display error message if it exists -->
-<div *ngIf="errorMessage">
-    <p>Error: {{ errorMessage }}</p>
-</div>
-
+<div>
+    <h2>Student Management</h2>
+  
+    <div>
+      <h3>Students List</h3>
+      <ul>
+        <li *ngFor="let student of students" (click)="selectStudent(student)">
+          {{ student.firstName }} {{ student.lastName }} - {{ student.school }}
+        </li>
+      </ul>
+    </div>
+  
+    <div *ngIf="selectedStudent">
+      <h3>Manage Groups for {{ selectedStudent.firstName }} {{ selectedStudent.lastName }}</h3>
+  
+      <div>
+        <label for="group-select">Assign to Group:</label>
+        <select id="group-select" [(ngModel)]="selectedGroupId">
+          <option *ngFor="let group of groups" [value]="group.id">{{ group.groupName }}</option>
+        </select>
+        <button (click)="assignStudentToGroup()">Assign to Group</button>
+      </div>
+  
+      <div>
+        <h4>Current Groups</h4>
+        <ul>
+          <li *ngFor="let group of selectedStudent.groups">
+            {{ group.groupName }}
+            <button (click)="removeStudentFromGroup(group.id!)">Remove</button>
+          </li>
+        </ul>
+      </div>
+  
+      <div>
+        <h4>Student Information</h4>
+        <p><strong>First Name:</strong> {{ selectedStudent.firstName }}</p>
+        <p><strong>Last Name:</strong> {{ selectedStudent.lastName }}</p>
+        <p><strong>Gender:</strong> {{ selectedStudent.gender }}</p>
+        <p><strong>School:</strong> {{ selectedStudent.school }}</p>
+        <p><strong>Grade:</strong> {{ selectedStudent.grade }}</p>
+        <p><strong>Session:</strong> {{ selectedStudent.session }}</p>
+        <p><strong>Date of Birth:</strong> {{ selectedStudent.dateOfBirth }}</p>
+        <p><strong>Address:</strong> {{ selectedStudent.address }}</p>
+        <p><strong>Student Phone:</strong> {{ selectedStudent.studentPhone }}</p>
+        <p><strong>Parent Phone:</strong> {{ selectedStudent.parentPhone }}</p>
+        <p><strong>Registration Date:</strong> {{ selectedStudent.registrationDate | date:'shortDate' }}</p>
+        <p><strong>Status:</strong> {{ selectedStudent.status }}</p>
+      </div>
+    </div>
+  
+    <div *ngIf="errorMessage">
+      <p>Error: {{ errorMessage }}</p>
+    </div>
+  </div>
+  
+  
+  
   
