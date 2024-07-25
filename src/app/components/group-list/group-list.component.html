@@ -16,8 +16,8 @@
       <tbody>
         <tr *ngFor="let group of groups">
           <td>{{ group.groupName }}</td>
-          <td>{{ group.teacher?.firstName }}</td> <!-- Adjust based on your model -->
-          <td>{{ group.course?.courseName }}</td> <!-- Adjust based on your model -->
+          <td>{{ group.teacher?.firstName }}</td> 
+          <td>{{ group.course?.courseName }}</td> 
           <td>{{ group.description }}</td>
           <td>{{ group.startDate | date }}</td>
           <td>{{ group.endDate | date }}</td>

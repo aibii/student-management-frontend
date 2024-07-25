@@ -10,4 +10,5 @@ export interface Group {
   endDate?: Date;
   teacher?: Teacher; // Define a Teacher interface
   students?: Student[]; 
+  course?: Course;
 }

@@ -37,9 +37,9 @@ export class GroupFormComponent implements OnInit {
       groupName: ['', Validators.required],
       teacher: ['', Validators.required],
       description: '',
-      course: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
+      // Remove course: ['', Validators.required]
     });
 
     this.loadTeachers();
@@ -90,7 +90,7 @@ export class GroupFormComponent implements OnInit {
         startDate: formValue.startDate,
         endDate: formValue.endDate,
         teacher: formValue.teacher,
-        course: formValue.course
+        id: 0
       };
   
       if (this.isEdit) {

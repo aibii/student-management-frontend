@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Group } from 'src/app/models/Group.model';
 import { GroupService } from 'src/app/services/group.service';
+import { HttpClient } from '@angular/common/http'; // Import the HttpClient module
 
 @Component({
   selector: 'app-group-list',
@@ -9,8 +10,9 @@ import { GroupService } from 'src/app/services/group.service';
 })
 export class GroupListComponent implements OnInit {
   groups: Group[] = [];
+  baseUrl: string = 'http://localhost:8080/api/groups'; // Declare the 'baseUrl' property
 
-  constructor(private groupService: GroupService) {}
+  constructor(private groupService: GroupService, private http: HttpClient) {} // Inject the HttpClient module
 
   ngOnInit(): void {
     this.groupService.getAllGroups().subscribe(data => {
@@ -19,8 +21,14 @@ export class GroupListComponent implements OnInit {
   }
 
   deleteGroup(id: number): void {
-    this.groupService.deleteGroup(id).subscribe(() => {
-      this.groups = this.groups.filter(group => group.id !== id);
-    });
+    this.http.delete(`${this.baseUrl}/${id}`).subscribe(
+      () => {
+        this.groups = this.groups.filter(group => group.id !== id);
+      },
+      (error) => {
+        console.error('Error deleting group:', error);
+        // Handle error (e.g., show a notification to the user)
+      }
+    );
   }
 }
