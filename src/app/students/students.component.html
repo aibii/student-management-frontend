@@ -1,58 +1,31 @@
-<div>
-    <h2>Student Management</h2>
-  
-    <div>
-      <h3>Students List</h3>
-      <ul>
-        <li *ngFor="let student of students" (click)="selectStudent(student)">
-          {{ student.firstName }} {{ student.lastName }} - {{ student.school }}
-        </li>
-      </ul>
-    </div>
-  
-    <div *ngIf="selectedStudent">
-      <h3>Manage Groups for {{ selectedStudent.firstName }} {{ selectedStudent.lastName }}</h3>
-  
-      <div>
-        <label for="group-select">Assign to Group:</label>
-        <select id="group-select" [(ngModel)]="selectedGroupId">
-          <option *ngFor="let group of groups" [value]="group.id">{{ group.groupName }}</option>
-        </select>
-        <button (click)="assignStudentToGroup()">Assign to Group</button>
-      </div>
-  
-      <div>
-        <h4>Current Groups</h4>
-        <ul>
-          <li *ngFor="let group of selectedStudent.groups">
-            {{ group.groupName }}
-            <button (click)="removeStudentFromGroup(group.id!)">Remove</button>
-          </li>
-        </ul>
-      </div>
-  
-      <div>
-        <h4>Student Information</h4>
-        <p><strong>First Name:</strong> {{ selectedStudent.firstName }}</p>
-        <p><strong>Last Name:</strong> {{ selectedStudent.lastName }}</p>
-        <p><strong>Gender:</strong> {{ selectedStudent.gender }}</p>
-        <p><strong>School:</strong> {{ selectedStudent.school }}</p>
-        <p><strong>Grade:</strong> {{ selectedStudent.grade }}</p>
-        <p><strong>Session:</strong> {{ selectedStudent.session }}</p>
-        <p><strong>Date of Birth:</strong> {{ selectedStudent.dateOfBirth }}</p>
-        <p><strong>Address:</strong> {{ selectedStudent.address }}</p>
-        <p><strong>Student Phone:</strong> {{ selectedStudent.studentPhone }}</p>
-        <p><strong>Parent Phone:</strong> {{ selectedStudent.parentPhone }}</p>
-        <p><strong>Registration Date:</strong> {{ selectedStudent.registrationDate | date:'shortDate' }}</p>
-        <p><strong>Status:</strong> {{ selectedStudent.status }}</p>
-      </div>
-    </div>
-  
-    <div *ngIf="errorMessage">
-      <p>Error: {{ errorMessage }}</p>
-    </div>
-  </div>
-  
-  
+<div class="student-list-container">
+  <h2>Student List</h2>
+  <table class="student-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Gender</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.studentId }}</td>
+        <td>{{ student.firstName }}</td>
+        <td>{{ student.lastName }}</td>
+        <td>{{ student.gender }}</td>
+        <td>
+          <button (click)="editStudent(student)">Edit</button>
+          <button (click)="deleteStudent(student.studentId!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="addStudent()">Add Student</button>
+</div>
+
+
   
   

@@ -7,6 +7,7 @@ import { GroupDto } from 'src/app/models/GroupDto.model';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { CourseService } from 'src/app/services/course.service';
 import { GroupService } from 'src/app/services/group.service';
+import { HttpClient } from '@angular/common/http';
 import { TeacherService } from 'src/app/services/teacher.service';
 
 @Component({
@@ -16,12 +17,23 @@ import { TeacherService } from 'src/app/services/teacher.service';
 })
 
 export class GroupFormComponent implements OnInit {
-  teachers: Teacher[] = []; // Use your Teacher type
-  courses: Course[] = []; // Use your Course type
 
   groupForm!: FormGroup;
   isEdit = false;
   groupId!: number;
+
+  newGroup = {
+    groupName: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    teacher: { id: null },
+    course: { id: null },
+    monthlyFee: null
+  };
+
+  teachers: Teacher[] = []; // Specify the type as an array of Teacher
+  courses: Course[] = [];  // Specify the type as an array of Course
 
   constructor(
     private groupService: GroupService,
@@ -29,22 +41,27 @@ export class GroupFormComponent implements OnInit {
     private router: Router,
     private teacherService: TeacherService, 
     private courseService: CourseService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.groupForm = this.fb.group({
       groupName: ['', Validators.required],
       teacher: ['', Validators.required],
+      course: ['', Validators.required],
       description: '',
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
       // Remove course: ['', Validators.required]
     });
 
+
+    // Load teachers and courses
     this.loadTeachers();
     this.loadCourses();
 
+    // Edit mode
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isEdit = true;
@@ -79,29 +96,19 @@ export class GroupFormComponent implements OnInit {
     );
   }
 
-  onSubmit(): void {
-    if (this.groupForm.valid) {
-      const formValue = this.groupForm.value;
-  
-      // Construct the Group object
-      const group: Group = {
-        groupName: formValue.groupName,
-        description: formValue.description,
-        startDate: formValue.startDate,
-        endDate: formValue.endDate,
-        teacher: formValue.teacher,
-        id: 0
-      };
-  
-      if (this.isEdit) {
-        this.groupService.updateGroup(this.groupId, group).subscribe(() => {
-          this.router.navigate(['/groups']);
-        });
-      } else {
-        this.groupService.createGroup(group).subscribe(() => {
-          this.router.navigate(['/groups']);
-        });
-      }
+  onSubmit() {
+    console.log("Submitting group:", this.newGroup);  // Debug: log the group data
+
+    if (!this.newGroup.teacher.id || !this.newGroup.course.id) {
+      console.error("Teacher ID and Course ID must be provided");
+      return;
     }
+
+    this.http.post('http://localhost:8080/api/groups', this.newGroup)
+      .subscribe(response => {
+        console.log('Group created successfully:', response);
+      }, error => {
+        console.error('Error creating group:', error);
+      });
   }
 }

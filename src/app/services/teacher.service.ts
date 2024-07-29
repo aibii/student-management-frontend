@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Teacher } from '../models/Teacher.model';
 
@@ -11,6 +11,11 @@ export class TeacherService {
   private baseUrl = 'http://localhost:8080/api/teachers';
 
   constructor(private http: HttpClient) { }
+
+  addTeacher(teacher: Teacher): Observable<Teacher> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<Teacher>(this.baseUrl, teacher, { headers });
+  }
 
   getAllTeachers(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);

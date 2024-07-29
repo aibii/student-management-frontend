@@ -4,6 +4,7 @@ import { GroupService } from '../services/group.service';
 import { Student } from '../models/Student.model';
 import { Group } from '../models/Group.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student',
@@ -11,66 +12,38 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./students.component.css']
 })
 export class StudentComponent implements OnInit {
-
   students: Student[] = [];
-  groups: Group[] = [];
-  selectedStudent: Student | null = null;
-  selectedGroupId: number | null = null;
-  errorMessage: string | null = null;
 
-  constructor(private studentService: StudentService, private groupService: GroupService) { }
+  constructor(private studentService: StudentService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadStudents();
-    this.loadGroups();
   }
 
-  loadStudents(): void {
-    this.studentService.getAllStudents().subscribe(data => {
+  loadStudents() {
+    this.studentService.getStudents().subscribe(data => {
       this.students = data;
-    }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
-      this.errorMessage = 'Failed to load students';
     });
   }
 
-  loadGroups(): void {
-    this.groupService.getAllGroups().subscribe(data => {
-      this.groups = data;
-    }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
-      this.errorMessage = 'Failed to load groups';
-    });
+  addStudent() {
+    this.router.navigate(['/students/new']);
   }
 
-  selectStudent(student: Student): void {
-    this.selectedStudent = student;
-    this.selectedGroupId = null; // Reset selected group
+  editStudent(student: Student) {
+    this.router.navigate(['/students/edit', student.studentId]);
   }
 
-  assignStudentToGroup(): void {
-    if (this.selectedStudent && this.selectedGroupId !== null) {
-      this.studentService.assignStudentToGroup(this.selectedStudent.id!, this.selectedGroupId).subscribe(() => {
-        this.loadStudentDetails(this.selectedStudent!.id!);
-      }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
-        this.errorMessage = 'Failed to assign student to group';
+  deleteStudent(studentId: number | undefined) {
+    if (studentId === undefined) {
+      console.error('Cannot delete student: studentId is undefined');
+      return;
+    }
+
+    if (confirm('Are you sure you want to delete this student?')) {
+      this.studentService.deleteStudent(studentId).subscribe(() => {
+        this.loadStudents(); // Reload students after deletion
       });
     }
-  }
-
-  removeStudentFromGroup(groupId: number): void {
-    if (this.selectedStudent) {
-      this.studentService.removeStudentFromGroup(this.selectedStudent.id!, groupId).subscribe(() => {
-        this.loadStudentDetails(this.selectedStudent!.id!);
-      }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
-        this.errorMessage = 'Failed to remove student from group';
-      });
-    }
-  }
-
-  loadStudentDetails(studentId: number): void {
-    this.studentService.getStudentById(studentId).subscribe(data => {
-      this.selectedStudent = data;
-    }, (error: HttpErrorResponse) => { // Explicitly type the error parameter
-      this.errorMessage = 'Failed to load student details';
-    });
   }
 }

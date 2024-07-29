@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Group } from '../models/Group.model';
@@ -21,9 +21,11 @@ export class GroupService {
   }
 
   createGroup(groupData: Group): Observable<Group> {
-    // Your existing code to make the HTTP POST request
-    // Ensure the URL and HTTP method are correct
-    return this.http.post<Group>('http://localhost:8080/api/groups', groupData);
+    return this.http.post<Group>('http://localhost:8080/api/groups', groupData, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
 
   updateGroup(id: number, group: Group): Observable<Group> {
