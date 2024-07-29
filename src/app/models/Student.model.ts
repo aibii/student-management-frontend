@@ -3,7 +3,7 @@
 import { Group } from "./Group.model";
 
 export class Student {
-  studentId: number | undefined;
+  studentId!: number;
   firstName!: string;
   lastName!: string;
   gender!: 'MALE' | 'FEMALE';

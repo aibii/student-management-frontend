@@ -17,6 +17,7 @@
         <td>{{ student.lastName }}</td>
         <td>{{ student.gender }}</td>
         <td>
+          <button (click)="viewStudent(student.studentId)">View</button>
           <button (click)="editStudent(student)">Edit</button>
           <button (click)="deleteStudent(student.studentId!)">Delete</button>
         </td>

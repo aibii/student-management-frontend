@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { StudentService } from './services/student.service';
 import { GroupService } from './services/group.service';
 import { StudentFormComponent } from './student-form/student-form.component';
+import { StudentDetailsComponent } from './student-details/student-details.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { StudentFormComponent } from './student-form/student-form.component';
     GroupListComponent,
     GroupFormComponent,
     StudentFormComponent,
+    StudentDetailsComponent,
   ],
   imports: [
     BrowserModule,

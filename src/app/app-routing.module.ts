@@ -9,6 +9,7 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 import { GroupFormComponent } from './components/group-form/group-form.component';
 import { GroupListComponent } from './components/group-list/group-list.component';
 import { StudentFormComponent } from './student-form/student-form.component';
+import { StudentDetailsComponent } from './student-details/student-details.component';
 
 const routes: Routes = [
   { path: 'courses', component: CoursesComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'students', component: StudentComponent },
   { path: 'students/new', component: StudentFormComponent },
   { path: 'students/edit/:id', component: StudentFormComponent },
+  { path: 'students/details/:id', component: StudentDetailsComponent },
   { path: 'teachers', component: TeacherComponent },
   //{ path: 'add-course', component: AddCourseComponent },
   { path: '', redirectTo: '/students', pathMatch: 'full' },  // Default route

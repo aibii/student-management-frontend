@@ -16,6 +16,15 @@ export class StudentComponent implements OnInit {
 
   constructor(private studentService: StudentService, private router: Router) {}
 
+  viewStudent(id: number | undefined): void {
+    if (id !== undefined) {
+      this.router.navigate(['/students/details', id]);
+    } else {
+      // Handle the case where id is undefined
+      console.warn('Student ID is undefined.');
+    }
+  }
+
   ngOnInit(): void {
     this.loadStudents();
   }
