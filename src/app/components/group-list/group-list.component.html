@@ -1,0 +1,28 @@
+<div class="group-list-container">
+  <h2>Group List</h2>
+  <table class="group-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Group Name</th>
+        <th>Teacher ID</th>
+        <th>Course ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of groups">
+        <td>{{ group.id }}</td>
+        <td>{{ group.groupName }}</td>
+        <td>{{ group.teacherId }}</td>
+        <td>{{ group.courseId }}</td>
+        <td>
+          <button (click)="viewGroup(group.id)">View</button>
+          <button (click)="editGroup(group)">Edit</button>
+          <button (click)="deleteGroup(group.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button routerLink="/groups/new">Add Group</button>
+</div>

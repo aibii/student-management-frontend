@@ -1,6 +1,5 @@
 // student.model.ts
 
-import { Group } from "./Group.model";
 
 export class Student {
   studentId!: number;
