@@ -11,29 +11,24 @@ import { GroupListComponent } from './components/group-list/group-list.component
 import { StudentFormComponent } from './student-form/student-form.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
+import { TeacherFormComponent } from './teacher-form/teacher-form.component';
 
 const routes: Routes = [
   { path: 'courses', component: CoursesComponent },
   { path: 'payments', component: PaymentsComponent },
   { path: 'students', component: StudentComponent },
-  { path: 'groups', component: GroupListComponent },
   { path: 'students/new', component: StudentFormComponent },
-  { path: 'groups/new', component: GroupFormComponent},
   { path: 'students/edit/:id', component: StudentFormComponent },
-  { path: 'groups/edit/:id', component: GroupFormComponent},
-  { path: 'groups/details/:id', component: GroupDetailsComponent },
   { path: 'students/details/:id', component: StudentDetailsComponent },
-  { path: 'groups/details/:id', component: GroupFormComponent },
-  { path: 'teachers', component: TeacherComponent },
-  //{ path: 'add-course', component: AddCourseComponent },
-  { path: '', redirectTo: '/students', pathMatch: 'full' },  // Default route
-  { path: '**', redirectTo: '/students' },
-  { path: 'teacher/:id', component: TeacherProfileComponent },  // Assuming you have a component named TeacherProfileComponent for individual teacher profiles
-  { path: 'course-details/:id', component: CourseDetailsComponent },
   { path: 'groups', component: GroupListComponent },
-  { path: 'group/add', component: GroupFormComponent },
-  { path: 'group/edit/:id', component: GroupFormComponent },
-  { path: '', redirectTo: '/groups', pathMatch: 'full' }  // Redirect to groups list as default
+  { path: 'groups/new', component: GroupFormComponent },
+  { path: 'groups/edit/:id', component: GroupFormComponent },
+  { path: 'groups/details/:id', component: GroupDetailsComponent },
+  { path: 'teachers', component: TeacherComponent },
+  { path: 'teachers/edit/:id', component: TeacherFormComponent },
+  { path: 'teachers/details/:id', component: TeacherProfileComponent }, // Assuming TeacherProfileComponent exists
+  { path: 'courses/details/:id', component: CourseDetailsComponent }, // Assuming CourseDetailsComponent exists
+  { path: '**', redirectTo: '/students' }  // Wildcard route for handling undefined paths
 ];
 
 @NgModule({

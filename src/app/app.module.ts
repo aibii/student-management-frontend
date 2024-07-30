@@ -19,6 +19,7 @@ import { ClassGroupService } from './services/group.service';
 import { StudentFormComponent } from './student-form/student-form.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
+import { TeacherFormComponent } from './teacher-form/teacher-form.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { GroupDetailsComponent } from './group-details/group-details.component';
     StudentFormComponent,
     StudentDetailsComponent,
     GroupDetailsComponent,
+    TeacherFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class TeacherComponent implements OnInit {
   teachers: Teacher[] = [];
 
-  constructor(private teacherService: TeacherService) {}
+  constructor(private teacherService: TeacherService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadTeachers();
@@ -27,6 +27,23 @@ export class TeacherComponent implements OnInit {
         console.error('Error fetching teachers', error);
       }
     );
+  }
+
+  editTeacher(teacher: Teacher) {
+    this.router.navigate(['/teachers/edit', teacher.id]);
+  }
+
+  deleteTeacher(teacherId: number | undefined) {
+    if (teacherId === undefined) {
+      console.error('Cannot delete student: teacherId is undefined');
+      return;
+    }
+
+    if (confirm('Are you sure you want to delete this teacher?')) {
+      this.teacherService.deleteTeacher(teacherId).subscribe(() => {
+        this.loadTeachers(); // Reload students after deletion
+      });
+    }
   }
 }
 

@@ -19,9 +19,14 @@
           <td>{{ teacher.dateOfBirth }}</td>
           <td>{{ teacher.address }}</td>
           <td>{{ teacher.phoneNumber }}</td>
+          <td>
+            <button (click)="editTeacher(teacher)">Edit</button>
+            <button (click)="deleteTeacher(teacher.id!)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <!--<button (click)="addStudent()">Add Student</button>-->
   </div>
   
   
