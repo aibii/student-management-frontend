@@ -1,42 +1,19 @@
-<div *ngIf="student">
-    <h2>Editing {{ student.firstName }} {{ student.lastName }}</h2>
-  
-    <!-- Form for editing student details -->
-    <form (ngSubmit)="saveStudentDetails()">
-        <div>
-            <label for="firstName">First Name:</label>
-            <input id="firstName" [(ngModel)]="student.firstName" name="firstName" required />
-        </div>
-
-        <div>
-            <label for="lastName">Last Name:</label>
-            <input id="lastName" [(ngModel)]="student.lastName" name="lastName" required />
-        </div>
-
-        <div>
-            <label for="dateOfBirth">Date of Birth:</label>
-            <input type="date" id="dateOfBirth" [(ngModel)]="student.dateOfBirth" name="dateOfBirth" />
-        </div>
-
-        <div>
-            <label for="address">Address:</label>
-            <input id="address" [(ngModel)]="student.address" name="address" />
-        </div>
-
-        <div>
-            <label for="studentPhone">Student Phone:</label>
-            <input id="studentPhone" [(ngModel)]="student.studentPhone" name="studentPhone" />
-        </div>
-
-        <div>
-            <label for="parentPhone">Parent Phone:</label>
-            <input id="parentPhone" [(ngModel)]="student.parentPhone" name="parentPhone" />
-        </div>
-
-        <!-- Add more input fields for any additional properties -->
-
-        <button type="submit">Save Changes</button>
-        <button (click)="deleteStudent()">Delete Student</button>
-    </form>
-</div>
+<div class="student-details-container">
+    <h2>Student Details</h2>
+    <div *ngIf="student">
+      <p><strong>ID:</strong> {{ student.studentId }}</p>
+      <p><strong>First Name:</strong> {{ student.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ student.lastName }}</p>
+      <p><strong>Gender:</strong> {{ student.gender }}</p>
+      <p><strong>Date of Birth:</strong> {{ student.dateOfBirth | date }}</p>
+      <p><strong>School:</strong> {{ student.school }}</p>
+      <p><strong>Grade:</strong> {{ student.grade }}</p>
+      <p><strong>Session:</strong> {{ student.session }}</p>
+      <p><strong>Address:</strong> {{ student.address }}</p>
+      <p><strong>Student Phone:</strong> {{ student.studentPhone }}</p>
+      <p><strong>Parent Phone:</strong> {{ student.parentPhone }}</p>
+      <button routerLink="/students/edit/{{ student.studentId }}">Edit</button>
+      <button routerLink="/students">Back to List</button>
+    </div>
+  </div>
   

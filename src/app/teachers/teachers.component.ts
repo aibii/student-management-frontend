@@ -13,16 +13,13 @@ export class TeacherComponent implements OnInit {
   teachers: Teacher[] = [];
   errorMessage: string = '';
   newTeacher: Teacher = {
+    id: 0, // or undefined, depending on your preference
     firstName: '',
     lastName: '',
     dateOfBirth: '',
     address: '',
     phoneNumber: ''
-    // ... initialize other properties as needed ...
-    ,
-    id: 0
   };
-
 
   constructor(private teacherService: TeacherService, private router: Router) { }
 
@@ -58,33 +55,19 @@ export class TeacherComponent implements OnInit {
     this.showAddTeacherForm = !this.showAddTeacherForm; // Toggle the form visibility.
   }
 
-  addTeacher(): void {
-    if (this.newTeacher.firstName && this.newTeacher.firstName.trim()) {
-        this.teacherService.createTeacher(this.newTeacher).subscribe(
-            (data: Teacher) => {
-                console.log('Teacher added successfully!', data);
-                this.teachers.push(data);
-            },
-            error => {
-                console.error('Error adding teacher:', error);
-            }
-        );
-
-        this.showAddTeacherForm = false;
-
-        // Reset the newTeacher object for potential future use
-        // Reset the newTeacher object for potential future use
-      this.newTeacher = {
-        firstName: '',
-        lastName: '',
-        dateOfBirth: '',
-        address: '',
-        phoneNumber: ''
-        // ... add other required properties of Teacher here with default values ...
-      };
-    } else {
-        console.warn('Teacher name is required.');
-    }
+  addTeacher(event: Event) {
+    event.preventDefault();
+    // Ensure that newTeacher is correctly populated with data from the form
+    this.teacherService.addTeacher(this.newTeacher).subscribe({
+      next: (response) => {
+        console.log('Teacher added successfully', response);
+        // Optionally reset form or provide feedback to the user
+      },
+      error: (error) => {
+        console.error('Error adding teacher:', error);
+        this.errorMessage = 'There was an error adding the teacher.';
+      }
+    });
 }
 
 // Adjust this function to correctly compare string and date values

@@ -11,13 +11,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { TeacherProfileComponent } from './teacher-profile/teacher-profile.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
-import { StudentDetailsComponent } from './student-details/student-details.component';
 import { GroupListComponent } from './components/group-list/group-list.component';
 import { GroupFormComponent } from './components/group-form/group-form.component';
 import { CommonModule } from '@angular/common';
-import { StudentAssignmentComponent } from './student-assignment/student-assignment.component';
 import { StudentService } from './services/student.service';
 import { GroupService } from './services/group.service';
+import { StudentFormComponent } from './student-form/student-form.component';
+import { StudentDetailsComponent } from './student-details/student-details.component';
 
 
 @NgModule({
@@ -29,10 +29,10 @@ import { GroupService } from './services/group.service';
     TeacherComponent,
     TeacherProfileComponent,
     CourseDetailsComponent,
-    StudentDetailsComponent,
     GroupListComponent,
     GroupFormComponent,
-    StudentAssignmentComponent
+    StudentFormComponent,
+    StudentDetailsComponent,
   ],
   imports: [
     BrowserModule,

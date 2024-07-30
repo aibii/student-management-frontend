@@ -1,0 +1,83 @@
+<div class="student-form-container">
+    <h2>{{ isEditMode ? 'Edit Student' : 'Add Student' }}</h2>
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input id="firstName" formControlName="firstName" placeholder="Enter first name" />
+        <div *ngIf="studentForm.controls['firstName'].invalid && studentForm.controls['firstName'].touched" class="error">
+          First name is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" formControlName="lastName" placeholder="Enter last name" />
+        <div *ngIf="studentForm.controls['lastName'].invalid && studentForm.controls['lastName'].touched" class="error">
+          Last name is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender">
+          <option value="" disabled>Select gender</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+        <div *ngIf="studentForm.controls['gender'].invalid && studentForm.controls['gender'].touched" class="error">
+          Gender is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input id="dateOfBirth" formControlName="dateOfBirth" type="date" />
+        <div *ngIf="studentForm.controls['dateOfBirth'].invalid && studentForm.controls['dateOfBirth'].touched" class="error">
+          Date of birth is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="school">School</label>
+        <input id="school" formControlName="school" placeholder="Enter school" />
+      </div>
+  
+      <div class="form-group">
+        <label for="grade">Grade</label>
+        <input id="grade" formControlName="grade" placeholder="Enter grade" />
+      </div>
+  
+      <div class="form-group">
+        <label for="session">Session</label>
+        <select id="session" formControlName="session">
+          <option value="" disabled>Select session</option>
+          <option value="MORNING">Morning</option>
+          <option value="AFTERNOON">Afternoon</option>
+        </select>
+        <div *ngIf="studentForm.controls['session'].invalid && studentForm.controls['session'].touched" class="error">
+          Session is required.
+        </div>
+      </div>
+      
+  
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input id="address" formControlName="address" placeholder="Enter address" />
+      </div>
+  
+      <div class="form-group">
+        <label for="studentPhone">Student Phone</label>
+        <input id="studentPhone" formControlName="studentPhone" placeholder="Enter student phone" />
+      </div>
+  
+      <div class="form-group">
+        <label for="parentPhone">Parent Phone</label>
+        <input id="parentPhone" formControlName="parentPhone" placeholder="Enter parent phone" />
+      </div>
+  
+      <button type="submit" [disabled]="studentForm.invalid">{{ isEditMode ? 'Update' : 'Add' }} Student</button>
+      <button type="button" (click)="onCancel()">Cancel</button>
+    </form>
+  </div>
+  
+  
