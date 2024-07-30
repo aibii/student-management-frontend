@@ -114,32 +114,23 @@ onSubmit() {
       console.error("Form is not valid:", this.courseForm.errors);
   }
 }
-  // Implement methods for other CRUD operations here...
-  editCourse(course: any) {
-    // Populate the courseForm with the course data to edit
-    this.courseForm.setValue({
-      courseName: course.courseName,
-      description: course.description,
-      startDate: course.startDate,
-      endDate: course.endDate,
-      monthlyFee: course.monthlyFee
-      // add other fields as necessary
-    });
-    
-    this.editingCourseId = course.id; // Keep track of the editing course's ID
-    this.showAddCourseForm = true; // Show the form
+  
+  editCourse(course: Course) {
+    this.router.navigate(['/courses/edit', course.id]);
+  }
+
+  deleteCourse(id: number): void {
+    if (confirm('Are you sure you want to delete this course?')) {
+      this.courseService.deleteCourse(id).subscribe(
+        response => {
+          console.log('Course deleted successfully');
+          this.getCourses(); // Refresh the list after deletion
+        },
+        error => console.error('Error deleting course:', error)
+      );
+    }
   }
   
-  deleteCourse(courseId: number) {
-    this.courseService.deleteCourse(courseId).subscribe(
-      () => {
-        console.log(`Course with id=${courseId} deleted`);
-        this.courses = this.courses.filter(course => course.id !== courseId); // Remove the course from the array
-      },
-      error => console.error(`Error deleting course with id=${courseId}:`, error)
-    );
   }
-  
-}
 
 

@@ -8,7 +8,7 @@
           <th>Description</th>
           <th>Start Date</th>
           <th>End Date</th>
-          <th>Monthly Fee</th>
+          <th>Actions</th> <!-- Add Actions column header -->
         </tr>
       </thead>
       <tbody>
@@ -18,9 +18,14 @@
           <td>{{ course.description }}</td>
           <td>{{ course.startDate }}</td>
           <td>{{ course.endDate }}</td>
+          <td> <!-- Moved inside the <tr> to access the `course` variable -->
+            <button (click)="editCourse(course)">Edit</button>
+            <button (click)="deleteCourse(course.id!)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
   
+
 

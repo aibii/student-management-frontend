@@ -25,8 +25,7 @@ export class CourseService {
   }
 
   updateCourse(id: number, course: Course): Observable<Course> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.put<Course>(`${this.baseUrl}/${id}`, course, { headers });
+    return this.http.put<Course>(`${this.baseUrl}/${id}`, course);
   }
 
   deleteCourse(id: number): Observable<void> {

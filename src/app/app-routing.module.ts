@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'teachers', component: TeacherComponent },
   { path: 'teachers/edit/:id', component: TeacherFormComponent },
   { path: 'teachers/details/:id', component: TeacherProfileComponent }, // Assuming TeacherProfileComponent exists
-  { path: 'courses/details/:id', component: CourseDetailsComponent }, // Assuming CourseDetailsComponent exists
+  { path: 'courses/edit/:id', component: CourseDetailsComponent }, // Assuming CourseDetailsComponent exists
   { path: '**', redirectTo: '/students' }  // Wildcard route for handling undefined paths
 ];
 

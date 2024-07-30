@@ -1,0 +1,35 @@
+<div class="course-details-container">
+  <h2>{{ course?.courseName || 'Course Details' }}</h2>
+  
+  <form [formGroup]="courseForm" (ngSubmit)="saveCourse()">
+    <div class="form-group">
+      <label for="courseName">Course Name</label>
+      <input id="courseName" formControlName="courseName" placeholder="Enter course name" />
+      <div *ngIf="courseForm.get('courseName')?.invalid && courseForm.get('courseName')?.touched" class="error">
+        Course name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" placeholder="Enter course description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <input id="startDate" formControlName="startDate" type="date" />
+      <div *ngIf="courseForm.get('startDate')?.invalid && courseForm.get('startDate')?.touched" class="error">
+        Start date is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="endDate">End Date</label>
+      <input id="endDate" formControlName="endDate" type="date" />
+    </div>
+
+    <button type="submit" [disabled]="courseForm.invalid">Save Course</button>
+  </form>
+
+  <button (click)="deleteCourse()" class="delete-button">Delete Course</button>
+</div>
