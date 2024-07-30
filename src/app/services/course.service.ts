@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course } from '../models/Course.model';
 
@@ -7,33 +7,29 @@ import { Course } from '../models/Course.model';
   providedIn: 'root'
 })
 export class CourseService {
-
   private baseUrl = 'http://localhost:8080/api/courses';
 
   constructor(private http: HttpClient) { }
 
-  getAllCourses(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getAllCourses(): Observable<Course[]> {
+    return this.http.get<Course[]>(this.baseUrl);
   }
 
-  getCourseById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getCourse(id: number): Observable<Course> {
+    return this.http.get<Course>(`${this.baseUrl}/${id}`);
   }
 
-  createCourse(course: Object): Observable<Object> {
-    return this.http.post(`${this.baseUrl}`, course);
+  addCourse(course: Course): Observable<Course> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<Course>(this.baseUrl, course, { headers });
   }
 
-  updateCourse(courseId: number, courseData: Course): Observable<Course> {
-    // Use the baseUrl and append the courseId to it
-    return this.http.put<Course>(`${this.baseUrl}/${courseId}`, courseData);
-}
-  
-  deleteCourse(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  updateCourse(id: number, course: Course): Observable<Course> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.put<Course>(`${this.baseUrl}/${id}`, course, { headers });
   }
 
-  addCourse(courseData: any): Observable<Course> {
-    return this.http.post<Course>(this.baseUrl, courseData);
+  deleteCourse(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

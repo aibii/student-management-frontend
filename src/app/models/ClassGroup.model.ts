@@ -3,12 +3,15 @@ import { Student } from "./Student.model";
 import { Teacher } from "./Teacher.model";
 
 export class ClassGroup {
-  id!: number;
+  id?: number;  // Mark as optional if not always provided
   groupName!: string;
-  teacherId!: number; // Ensure this matches the backend schema
-  courseId!: number;  // Ensure this matches the backend schema
+  teacherId?: number;  // Optional if it can be null or undefined
+  courseId?: number;   // Optional if it can be null or undefined
   description?: string;
   startDate?: Date;
   endDate?: Date;
-  monthlyFee!: number;
+  monthlyFee?: number; // Optional if not always provided
+  teacherName?: string; 
+  courseName?: string;
 }
+

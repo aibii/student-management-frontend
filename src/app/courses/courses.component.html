@@ -1,1 +1,26 @@
+<div class="course-list-container">
+    <h2>Course List</h2>
+    <table class="course-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Course Name</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Monthly Fee</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of courses">
+          <td>{{ course.id }}</td>
+          <td>{{ course.courseName }}</td>
+          <td>{{ course.description }}</td>
+          <td>{{ course.startDate }}</td>
+          <td>{{ course.endDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
 

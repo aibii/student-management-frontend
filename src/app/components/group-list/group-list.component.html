@@ -5,8 +5,8 @@
       <tr>
         <th>ID</th>
         <th>Group Name</th>
-        <th>Teacher ID</th>
-        <th>Course ID</th>
+        <th>Teacher Name</th>
+        <th>Course Name</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -14,8 +14,8 @@
       <tr *ngFor="let group of groups">
         <td>{{ group.id }}</td>
         <td>{{ group.groupName }}</td>
-        <td>{{ group.teacherId }}</td>
-        <td>{{ group.courseId }}</td>
+        <td>{{ group.teacherName }}</td>
+        <td>{{ group.courseName }}</td>
         <td>
           <button (click)="viewGroup(group.id)">View</button>
           <button (click)="editGroup(group)">Edit</button>

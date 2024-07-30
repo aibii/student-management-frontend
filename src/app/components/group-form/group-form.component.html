@@ -9,20 +9,19 @@
       </div>
     </div>
 
+    
     <div class="form-group">
-      <label for="teacherId">Teacher ID</label>
-      <input id="teacherId" formControlName="teacherId" placeholder="Enter teacher ID" />
-      <div *ngIf="groupForm.controls['teacherId'].invalid && groupForm.controls['teacherId'].touched" class="error">
-        Teacher ID is required and must be a number.
-      </div>
+      <label for="teacherId">Teacher</label>
+      <select id="teacherId" formControlName="teacherId">
+        <option *ngFor="let teacher of teachers" [value]="teacher.id">{{ teacher.firstName }}</option>
+      </select>
     </div>
 
     <div class="form-group">
-      <label for="courseId">Course ID</label>
-      <input id="courseId" formControlName="courseId" placeholder="Enter course ID" type="number" />
-      <div *ngIf="groupForm.controls['courseId'].invalid && groupForm.controls['courseId'].touched" class="error">
-        Course ID is required and must be a number.
-      </div>
+      <label for="courseId">Course</label>
+      <select id="courseId" formControlName="courseId">
+        <option *ngFor="let course of courses" [value]="course.id">{{ course.courseName }}</option>
+      </select>
     </div>
 
     <div class="form-group">

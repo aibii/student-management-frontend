@@ -1,15 +1,13 @@
 <div *ngIf="group">
     <h2>{{ group.groupName }}</h2>
-    <p><strong>Teacher ID:</strong> {{ group.teacherId }}</p>
-    <p><strong>Course ID:</strong> {{ group.courseId }}</p>
+    <p><strong>Teacher:</strong> {{ teacherName }}</p>
+    <p><strong>Course:</strong> {{ courseName }}</p>
     <p><strong>Description:</strong> {{ group.description }}</p>
     <p><strong>Start Date:</strong> {{ group.startDate | date }}</p>
     <p><strong>End Date:</strong> {{ group.endDate | date }}</p>
     <p><strong>Monthly Fee:</strong> {{ group.monthlyFee | currency:'KGS':'symbol' }}</p>
 
-  
-    <button (click)="editGroup()" *ngIf="!isEditMode">Edit</button>
     <button (click)="goBackToList()">Back to List</button>
-    <button *ngIf="isEditMode">Update</button>
-  </div>
+</div>
+  
   

@@ -1,0 +1,21 @@
+.teacher-list-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .teacher-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .teacher-table th,
+  .teacher-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .teacher-table th {
+    background-color: #f2f2f2;
+  }
+  
