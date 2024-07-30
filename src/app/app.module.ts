@@ -15,9 +15,10 @@ import { GroupListComponent } from './components/group-list/group-list.component
 import { GroupFormComponent } from './components/group-form/group-form.component';
 import { CommonModule } from '@angular/common';
 import { StudentService } from './services/student.service';
-import { GroupService } from './services/group.service';
+import { ClassGroupService } from './services/group.service';
 import { StudentFormComponent } from './student-form/student-form.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
+import { GroupDetailsComponent } from './group-details/group-details.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
     GroupFormComponent,
     StudentFormComponent,
     StudentDetailsComponent,
+    GroupDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
     FormsModule,
     CommonModule
   ],
-  providers: [StudentService, GroupService],
+  providers: [StudentService, ClassGroupService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

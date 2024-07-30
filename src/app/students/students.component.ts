@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../services/student.service';
-import { GroupService } from '../services/group.service';
+import { ClassGroupService } from '../services/group.service';
 import { Student } from '../models/Student.model';
-import { Group } from '../models/Group.model';
+import { ClassGroup } from '../models/ClassGroup.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 

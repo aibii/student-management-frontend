@@ -1,38 +1,35 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Group } from '../models/Group.model';
 import { GroupDto } from '../models/GroupDto.model';
+import { ClassGroup } from '../models/ClassGroup.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GroupService {
-  private baseUrl = 'http://localhost:8080/api/groups';  // Your API endpoint
+export class ClassGroupService {
+  private baseUrl = 'http://localhost:8080/api/groups';
 
   constructor(private http: HttpClient) {}
 
-  getAllGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>(`${this.baseUrl}`);
+  getGroups(): Observable<ClassGroup[]> {
+    return this.http.get<ClassGroup[]>(this.baseUrl);
   }
 
-  getGroupById(id: number): Observable<Group> {
-    return this.http.get<Group>(`${this.baseUrl}/${id}`);
+  getGroup(id: number): Observable<ClassGroup> {
+    return this.http.get<ClassGroup>(`${this.baseUrl}/${id}`);
   }
 
-  createGroup(groupData: Group): Observable<Group> {
-    return this.http.post<Group>('http://localhost:8080/api/groups', groupData, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+  createGroup(group: ClassGroup): Observable<ClassGroup> {
+    console.log('Sending group data:', group); // Add this line for debugging
+    return this.http.post<ClassGroup>(this.baseUrl, group);
+  }
+  
+  updateGroup(group: ClassGroup): Observable<ClassGroup> {
+    return this.http.put<ClassGroup>(`${this.baseUrl}/${group.id}`, group);
   }
 
-  updateGroup(id: number, group: Group): Observable<Group> {
-    return this.http.put<Group>(`${this.baseUrl}/${id}`, group);
-  }
-
-  deleteGroup(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  deleteGroup(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
