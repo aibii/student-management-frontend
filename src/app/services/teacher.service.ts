@@ -7,7 +7,6 @@ import { Teacher } from '../models/Teacher.model';
   providedIn: 'root'
 })
 export class TeacherService {
-
   private baseUrl = 'http://localhost:8080/api/teachers';
 
   constructor(private http: HttpClient) { }
@@ -17,26 +16,24 @@ export class TeacherService {
     return this.http.post<Teacher>(this.baseUrl, teacher, { headers });
   }
 
-  getAllTeachers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getTeacher(id: number): Observable<Teacher> {
+    return this.http.get<Teacher>(`${this.baseUrl}/${id}`);
+  }
+
+  getAllTeachers(): Observable<Teacher[]> {
+    return this.http.get<Teacher[]>(this.baseUrl);
   }
 
   getTeacherById(id: number): Observable<Teacher> {
     return this.http.get<Teacher>(`${this.baseUrl}/${id}`);
-}
-
-  createTeacher(teacher: Teacher): Observable<Teacher> {
-    return this.http.post<Teacher>(`${this.baseUrl}`, teacher);
-}
+  }
 
   updateTeacher(id: number, teacher: Teacher): Observable<Teacher> {
-    //const url = `${this.baseUrl}/teachers/${id}`;
-    return this.http.put<Teacher>((`${this.baseUrl}/${id}`), teacher);
+    return this.http.put<Teacher>(`${this.baseUrl}/${id}`, teacher);
   }
 
   deleteTeacher(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
-
 }
 

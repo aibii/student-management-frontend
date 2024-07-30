@@ -9,9 +9,10 @@ import { CourseService } from '../services/course.service';
   templateUrl: './course-details.component.html',
   styleUrls: ['./course-details.component.css']
 })
-export class CourseDetailsComponent implements OnInit{
-  courseName!: number;
-  course: Course | undefined; // Ensure this model matches your Course data structure
+
+export class CourseDetailsComponent implements OnInit {
+  courseId!: number;
+  course: Course | undefined; // Use Course type and allow undefined
   courseForm!: FormGroup;
 
   constructor(
@@ -19,11 +20,11 @@ export class CourseDetailsComponent implements OnInit{
     private courseService: CourseService,
     private fb: FormBuilder,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.courseName = Number(this.route.snapshot.params['id']);
-    this.loadCourseDetails(this.courseName); // Pass courseName instead of course
+    this.courseId = Number(this.route.snapshot.params['id']);
+    this.loadCourseDetails(this.courseId);
 
     // Initialize courseForm
     this.courseForm = this.fb.group({
@@ -32,27 +33,34 @@ export class CourseDetailsComponent implements OnInit{
       startDate: ['', Validators.required],
       endDate: [''],
       monthlyFee: ['', Validators.required]
-      // Add more form controls as per your Course model
     });
   }
 
-  loadCourseDetails(courseId: number): void {
-    this.courseService.getCourseById(courseId).subscribe(
-      (data: Course) => {
-        this.course = data;
-        this.courseForm.patchValue(this.course);
+  loadCourseDetails(courseId: number): void { // Accept courseId as parameter
+    this.courseService.getCourse(courseId).subscribe(
+      (course: Course) => {
+        this.course = course;
+        // Patch form with course data
+        this.courseForm.patchValue({
+          courseName: course.courseName,
+          description: course.description,
+          startDate: course.startDate,
+          endDate: course.endDate
+        });
       },
-      error => console.error('Error fetching course details:', error)
+      (error: any) => {
+        console.error('Error fetching course details:', error);
+      }
     );
   }
 
   saveCourse(): void {
     if (this.courseForm.valid) {
-      if (this.course?.id) { // Add null check here
+      if (this.course?.id) { // Use optional chaining to check for course.id
         this.courseService.updateCourse(this.course.id, this.courseForm.value).subscribe(
           response => {
             console.log('Course updated successfully');
-            this.router.navigate(['/courses']); // Update with your course list route
+            this.router.navigate(['/courses']); // Navigate to course list
           },
           error => console.error('Error updating course:', error)
         );
@@ -62,24 +70,23 @@ export class CourseDetailsComponent implements OnInit{
     }
   }
 
-  deleteCourse() {
+  deleteCourse(): void {
     if (confirm('Are you sure you want to delete this course?')) {
-    console.log("Attempting to delete course with ID:", this.course?.id);
-    if (this.course) {
-      this.courseService.deleteCourse(this.course.id).subscribe(
-        response => {
-          console.log("Course deleted successfully:", response);
-          this.router.navigate(['/courses']);
-        },
-        error => {
-          console.error('Error deleting course:', error);
-          console.log('Request URL:', error.url);
-          console.log('Status:', error.status);
-          console.log('Status Text:', error.statusText);
-        }
-      );
+      console.log("Attempting to delete course with ID:", this.course?.id);
+      if (this.course?.id) { // Ensure course and course.id are defined
+        this.courseService.deleteCourse(this.course.id).subscribe(
+          response => {
+            console.log("Course deleted successfully:", response);
+            this.router.navigate(['/courses']);
+          },
+          error => {
+            console.error('Error deleting course:', error);
+            console.log('Request URL:', error.url);
+            console.log('Status:', error.status);
+            console.log('Status Text:', error.statusText);
+          }
+        );
+      }
     }
   }
-
-}
 }

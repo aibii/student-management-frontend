@@ -91,13 +91,11 @@ saveCourse() {
 
 createForm() {
   this.courseForm = this.fb.group({
-      courseName: ['', Validators.required],
-      description: [''],
-      startDate: ['', Validators.required],
-      endDate: [''],
-      //teacherName: ['', Validators.required],
-      monthlyFee: ['', Validators.required],
-      // Add more fields as needed
+    courseName: ['', Validators.required],
+    description: [''],
+    startDate: ['', Validators.required],
+    endDate: [''],
+    monthlyFee: ['', Validators.required],
   });
 }
 

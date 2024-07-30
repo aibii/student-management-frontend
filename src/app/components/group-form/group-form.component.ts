@@ -18,6 +18,8 @@ import { TeacherService } from 'src/app/services/teacher.service';
 
 export class GroupFormComponent implements OnInit {
   groupForm!: FormGroup;
+  teachers!: Teacher[];
+  courses!: Course[];
   isEditMode: boolean = false;
   groupId!: number;
 
@@ -25,7 +27,9 @@ export class GroupFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private classGroupService: ClassGroupService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private teacherService: TeacherService,
+    private courseService: CourseService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +42,8 @@ export class GroupFormComponent implements OnInit {
       endDate: [''],
       monthlyFee: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]] // Ensure this is a number
     });
+
+    this.loadTeachersAndCourses();
 
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -55,6 +61,11 @@ export class GroupFormComponent implements OnInit {
     this.classGroupService.getGroup(id).subscribe(group => {
       this.groupForm.patchValue(group);
     });
+  }
+
+  loadTeachersAndCourses() {
+    this.teacherService.getAllTeachers().subscribe(data => this.teachers = data);
+    this.courseService.getAllCourses().subscribe(data => this.courses = data);
   }
 
   onSubmit(): void {

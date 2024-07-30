@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 
 export class GroupListComponent implements OnInit {
   groups!: ClassGroup[];
+  teacherName: string = '';
+  courseName: string = '';
 
   constructor(private classGroupService: ClassGroupService, private router: Router) {}
 
@@ -29,15 +31,17 @@ export class GroupListComponent implements OnInit {
   }
 
   loadGroups() {
-    this.classGroupService.getGroups().subscribe(data => {
-      this.groups = data;
+    this.classGroupService.getGroupDetailsWithNames().subscribe(groups => {
+      this.groups = groups;
     });
   }
 
-  deleteGroup(id: number) {
-    this.classGroupService.deleteGroup(id).subscribe(() => {
-      this.loadGroups(); // Refresh the list
-    });
+  deleteGroup(id: number | undefined) {
+    if (id !== undefined) {
+      this.classGroupService.deleteGroup(id).subscribe(() => {
+        this.loadGroups(); // Refresh the list after deletion
+      });
+    }
   }
 
   editGroup(group: ClassGroup) {
