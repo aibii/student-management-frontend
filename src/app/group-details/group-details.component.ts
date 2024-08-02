@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ClassGroup } from '../models/ClassGroup.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassGroupService } from '../services/group.service';
 import { TeacherService } from '../services/teacher.service';
 import { CourseService } from '../services/course.service';
 import { Course } from '../models/Course.model';
 import { Teacher } from '../models/Teacher.model';
+import { ClassGroup } from '../models/StudentGroup.model';
 
 @Component({
   selector: 'app-group-details',

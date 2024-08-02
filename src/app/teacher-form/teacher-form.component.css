@@ -1,4 +1,4 @@
-.course-details-container {
+.teacher-form-container {
     width: 60%;
     margin: 0 auto;
     padding: 20px;
@@ -21,7 +21,7 @@
     margin-bottom: 5px;
   }
   
-  input, textarea {
+  input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -48,10 +48,9 @@
     color: white;
   }
   
-  .delete-button {
-    background-color: #dc3545;
+  button[type="button"] {
+    background-color: #6c757d;
     color: white;
-    margin-top: 15px;
   }
   
   button:disabled {

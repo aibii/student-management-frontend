@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ClassGroup } from 'src/app/models/ClassGroup.model';
 import { ClassGroupService } from 'src/app/services/group.service';
 import { HttpClient } from '@angular/common/http'; // Import the HttpClient module
 import { Router } from '@angular/router';
+import { ClassGroup } from 'src/app/models/StudentGroup.model';
 
 @Component({
   selector: 'app-group-list',

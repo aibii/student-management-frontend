@@ -12,7 +12,7 @@ import { CourseService } from '../services/course.service';
 
 export class CourseDetailsComponent implements OnInit {
   courseId!: number;
-  course: Course | undefined; // Use Course type and allow undefined
+  course: Course | undefined;
   courseForm!: FormGroup;
 
   constructor(
@@ -26,27 +26,26 @@ export class CourseDetailsComponent implements OnInit {
     this.courseId = Number(this.route.snapshot.params['id']);
     this.loadCourseDetails(this.courseId);
 
-    // Initialize courseForm
     this.courseForm = this.fb.group({
       courseName: ['', Validators.required],
       description: [''],
       startDate: ['', Validators.required],
-      endDate: [''],
-      monthlyFee: ['', Validators.required]
+      endDate: ['']
     });
   }
 
-  loadCourseDetails(courseId: number): void { // Accept courseId as parameter
+  loadCourseDetails(courseId: number): void {
     this.courseService.getCourse(courseId).subscribe(
       (course: Course) => {
         this.course = course;
-        // Patch form with course data
-        this.courseForm.patchValue({
-          courseName: course.courseName,
-          description: course.description,
-          startDate: course.startDate,
-          endDate: course.endDate
-        });
+        if (course) {
+          this.courseForm.patchValue({
+            courseName: course.courseName,
+            description: course.description,
+            startDate: course.startDate,
+            endDate: course.endDate
+          });
+        }
       },
       (error: any) => {
         console.error('Error fetching course details:', error);
@@ -55,38 +54,35 @@ export class CourseDetailsComponent implements OnInit {
   }
 
   saveCourse(): void {
-    if (this.courseForm.valid) {
-      if (this.course?.id) { // Use optional chaining to check for course.id
-        this.courseService.updateCourse(this.course.id, this.courseForm.value).subscribe(
-          response => {
-            console.log('Course updated successfully');
-            this.router.navigate(['/courses']); // Navigate to course list
-          },
-          error => console.error('Error updating course:', error)
-        );
-      }
+    if (this.courseForm.valid && this.course) {
+      this.courseService.updateCourse(this.course.id, this.courseForm.value).subscribe(
+        response => {
+          console.log('Course updated successfully');
+          this.router.navigate(['/courses']);
+        },
+        error => console.error('Error updating course:', error)
+      );
     } else {
-      console.error('Form is not valid:', this.courseForm.errors);
+      console.error('Form is not valid or course is undefined:', this.courseForm.errors);
     }
   }
-
+  
   deleteCourse(): void {
-    if (confirm('Are you sure you want to delete this course?')) {
-      console.log("Attempting to delete course with ID:", this.course?.id);
-      if (this.course?.id) { // Ensure course and course.id are defined
-        this.courseService.deleteCourse(this.course.id).subscribe(
-          response => {
-            console.log("Course deleted successfully:", response);
-            this.router.navigate(['/courses']);
-          },
-          error => {
-            console.error('Error deleting course:', error);
-            console.log('Request URL:', error.url);
-            console.log('Status:', error.status);
-            console.log('Status Text:', error.statusText);
+    if (this.course && confirm('Are you sure you want to delete this course?')) {
+      this.courseService.deleteCourse(this.course.id).subscribe(
+        response => {
+          console.log('Course deleted successfully');
+          this.router.navigate(['/courses']);
+        },
+        error => {
+          console.error('Error deleting course:', error);
+          if (error.status === 409) {
+            alert('Cannot delete course. Please delete associated groups first.');
+          } else {
+            alert('An error occurred while trying to delete the course.');
           }
-        );
-      }
+        }
+      );
     }
   }
 }
