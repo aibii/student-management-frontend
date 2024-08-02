@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from 'src/app/models/Course.model';
-import { ClassGroup } from 'src/app/models/ClassGroup.model';
-import { GroupDto } from 'src/app/models/GroupDto.model';
 import { Teacher } from 'src/app/models/Teacher.model';
 import { CourseService } from 'src/app/services/course.service';
 import { ClassGroupService } from 'src/app/services/group.service';
 import { HttpClient } from '@angular/common/http';
 import { TeacherService } from 'src/app/services/teacher.service';
+import { ClassGroup } from 'src/app/models/StudentGroup.model';
 
 @Component({
   selector: 'app-group-form',

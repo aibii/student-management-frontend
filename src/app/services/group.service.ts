@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, switchMap } from 'rxjs';
-import { GroupDto } from '../models/GroupDto.model';
-import { ClassGroup } from '../models/ClassGroup.model';
 import { Teacher } from '../models/Teacher.model';
 import { Course } from '../models/Course.model';
+import { ClassGroup } from '../models/StudentGroup.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,8 +56,8 @@ export class ClassGroupService {
     return this.http.get<ClassGroup>(`${this.baseUrl}/${id}`);
   }
 
-  getGroupById(id: number): Observable<GroupDto> {
-    return this.http.get<GroupDto>(`${this.baseUrl}/${id}`);
+  getGroupById(id: number): Observable<ClassGroup> {
+    return this.http.get<ClassGroup>(`${this.baseUrl}/${id}`);
   }
 
   createGroup(group: ClassGroup): Observable<ClassGroup> {
