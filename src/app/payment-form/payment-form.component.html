@@ -1,0 +1,59 @@
+<div class="container">
+    <h2 *ngIf="isEditMode">Edit Payment</h2>
+    <h2 *ngIf="!isEditMode">Add Payment</h2>
+  
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="studentId">Student ID</label>
+        <input type="number" id="studentId" formControlName="studentId" class="form-control" placeholder="Enter Student ID">
+        <div *ngIf="paymentForm.get('studentId')?.invalid && paymentForm.get('studentId')?.touched" class="text-danger">
+          Student ID is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="groupId">Group ID</label>
+        <input type="number" id="groupId" formControlName="groupId" class="form-control" placeholder="Enter Group ID">
+        <div *ngIf="paymentForm.get('groupId')?.invalid && paymentForm.get('groupId')?.touched" class="text-danger">
+          Group ID is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" formControlName="amount" class="form-control" placeholder="Enter Amount">
+        <div *ngIf="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched" class="text-danger">
+          Amount is required and must be positive
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="datePaid">Date Paid</label>
+        <input type="date" id="datePaid" formControlName="datePaid" class="form-control">
+        <div *ngIf="paymentForm.get('datePaid')?.invalid && paymentForm.get('datePaid')?.touched" class="text-danger">
+          Date Paid is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input type="date" id="dueDate" formControlName="dueDate" class="form-control">
+        <div *ngIf="paymentForm.get('dueDate')?.invalid && paymentForm.get('dueDate')?.touched" class="text-danger">
+          Due Date is required
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status" class="form-control">
+          <option value="paid">Paid</option>
+          <option value="due">Due</option>
+          <option value="overdue">Overdue</option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">Submit</button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    </form>
+  </div>
+  

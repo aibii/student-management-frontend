@@ -1,34 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Payment } from '../models/Payment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
-
   private baseUrl = 'http://localhost:8080/api/payments';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllPayments(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getPayments(): Observable<Payment[]> {
+    return this.http.get<Payment[]>(this.baseUrl);
   }
 
-  getPaymentById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getPaymentsByStudent(studentId: number): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`${this.baseUrl}/student/${studentId}`);
   }
 
-  createPayment(payment: Object): Observable<Object> {
-    return this.http.post(`${this.baseUrl}`, payment);
+  getPaymentsByGroup(groupId: number): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`${this.baseUrl}/group/${groupId}`);
   }
 
-  updatePayment(id: number, payment: any): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/${id}`, payment);
+  createPayment(payment: Payment): Observable<Payment> {
+    return this.http.post<Payment>(this.baseUrl, payment);
   }
 
-  deletePayment(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  updatePayment(paymentId: number, payment: Payment): Observable<Payment> {
+    return this.http.put<Payment>(`${this.baseUrl}/${payment.paymentId}`, payment);
+  }
+
+  deletePayment(paymentId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${paymentId}`);
+  }
+
+  getPayment(id: number): Observable<Payment> {
+    return this.http.get<Payment>(`${this.baseUrl}/${id}`);
   }
 }
-
