@@ -1,32 +1,33 @@
 <div class="teacher-list-container">
-    <h2>Teacher List</h2>
-    <table class="teacher-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Date of Birth</th>
-          <th>Address</th>
-          <th>Phone Number</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let teacher of teachers">
-          <td>{{ teacher.id }}</td>
-          <td>{{ teacher.firstName }}</td>
-          <td>{{ teacher.lastName }}</td>
-          <td>{{ teacher.dateOfBirth }}</td>
-          <td>{{ teacher.address }}</td>
-          <td>{{ teacher.phoneNumber }}</td>
-          <td>
-            <button (click)="editTeacher(teacher)">Edit</button>
-            <button (click)="deleteTeacher(teacher.id!)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!--<button (click)="addStudent()">Add Student</button>-->
-  </div>
+  <h2>Teacher List</h2>
+  <table class="teacher-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let teacher of teachers">
+        <td>{{ teacher.id }}</td>
+        <td>{{ teacher.firstName }}</td>
+        <td>{{ teacher.lastName }}</td>
+        <td>{{ teacher.dateOfBirth }}</td>
+        <td>{{ teacher.address }}</td>
+        <td>{{ teacher.phoneNumber }}</td>
+        <td>
+          <button (click)="editTeacher(teacher)">Edit</button>
+          <button (click)="deleteTeacher(teacher.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="addTeacher()">Add Teacher</button>
+</div>
   
   

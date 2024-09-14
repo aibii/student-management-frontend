@@ -1,31 +1,33 @@
-<div *ngFor="let studentId of paymentsByStudent | keyvalue">
+<div class="container">
+  <h2>Groups and Students</h2>
+  
+  <div *ngFor="let group of groupsWithStudents">
+    <!-- Display the group name and teacher name once -->
+    <h3>{{ group.groupName }} - {{ group.teacherName }}</h3>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Payment ID</th>
-        <th>Group ID</th>
-        <th>Student ID</th>
-        <th>Amount</th>
-        <th>Date Paid</th>
-        <th>Due Date</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let payment of studentId.value">
-        <td>{{ payment.paymentId }}</td>
-        <td>{{ payment.classGroup?.id }}</td>
-        <td>{{ payment.student?.studentId }}</td> <!-- Ensure student.studentId is accessed here -->
-        <td>{{ payment.amount }}</td>
-        <td>{{ payment.datePaid | date }}</td>
-        <td>{{ payment.dueDate | date }}</td>
-        <td>{{ payment.status }}</td>
-        <td>
-          <button class="btn btn-primary" (click)="editPayment(+studentId.key, payment.paymentId)">Edit</button>
-          <button class="btn btn-danger" (click)="deletePayment(payment.paymentId!)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- Display students in a numerated list -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>Enrollment Date</th>
+          <th>Actionsss</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of group.students; let i = index">
+          <td>{{ i + 1 }}</td> <!-- Show the student index (1, 2, 3, ...) -->
+          <td>{{ student.studentFirstName }} {{ student.studentLastName }}</td>
+          <td>{{ student.enrollmentDate | date }}</td>
+          <td>
+            <button class="btn btn-primary" (click)="addPayment(group.groupId, student.studentId)">
+              Add Payment
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+

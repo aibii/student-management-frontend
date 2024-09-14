@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { PaymentService } from '../services/payment.service';
 import { Payment } from '../models/Payment.model';
+import { StudentService } from '../services/student.service';
+import { ClassGroupService } from '../services/group.service';
 
 @Component({
   selector: 'app-payment-form',
@@ -12,65 +14,38 @@ import { Payment } from '../models/Payment.model';
 })
 
 export class PaymentFormComponent implements OnInit {
-  paymentForm!: FormGroup;
-  isEditMode: boolean = false;
-  paymentId!: number;
+  paymentForm: FormGroup;
+  groupId!: number;
+  studentId!: number;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private paymentService: PaymentService,
     private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private paymentService: PaymentService,
     private router: Router
-  ) { }
-
-  ngOnInit(): void {
-    this.paymentForm = this.formBuilder.group({
-      studentId: ['', Validators.required],
-      groupId: ['', Validators.required],
+  ) {
+    this.paymentForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0)]],
-      datePaid: ['', Validators.required],
-      dueDate: ['', Validators.required],
-      status: ['', Validators.required]
-    });
-
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.isEditMode = true;
-        this.paymentId = +id;
-        this.loadPaymentData(this.paymentId);
-      } else {
-        this.isEditMode = false;
-      }
+      datePaid: ['', Validators.required]
     });
   }
 
-  loadPaymentData(id: number): void {
-    this.paymentService.getPayment(id).subscribe(payment => {
-      this.paymentForm.patchValue(payment);
-    });
+  ngOnInit(): void {
+    this.groupId = +this.route.snapshot.paramMap.get('groupId')!;
+    this.studentId = +this.route.snapshot.paramMap.get('studentId')!;
   }
 
   onSubmit(): void {
-    if (this.paymentForm.invalid) {
-      return;
-    }
+    if (this.paymentForm.valid) {
+      const paymentData = {
+        groupId: this.groupId,
+        studentId: this.studentId,
+        ...this.paymentForm.value
+      };
 
-    const payment: Payment = this.paymentForm.value;
-
-    if (this.isEditMode) {
-      payment.paymentId = this.paymentId;
-      this.paymentService.updatePayment(this.paymentId, payment).subscribe(() => {
-        this.router.navigate(['/payments']);
-      });
-    } else {
-      this.paymentService.createPayment(payment).subscribe(() => {
-        this.router.navigate(['/payments']);
+      this.paymentService.createPayment(paymentData).subscribe(() => {
+        this.router.navigate(['/payments']);  // Navigate back to payment list after successful submission
       });
     }
-  }
-
-  onCancel(): void {
-    this.router.navigate(['/payments']);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../services/payment.service';
 import { Payment } from '../models/Payment.model';
 import { Router } from '@angular/router';
+import { GroupStudentService } from '../services/group-student.service';
 
 @Component({
   selector: 'app-payment-list',
@@ -9,53 +10,63 @@ import { Router } from '@angular/router';
   styleUrls: ['./payment-list.component.css']
 })
 export class PaymentListComponent implements OnInit {
-  firstPayment: Payment | null = null;
+ /* paymentsByStudent: { [studentId: number]: any[] } = {};
 
-  paymentsByStudent: { [studentId: number]: Payment[] } = {};
-
-  constructor(private paymentService: PaymentService, private router: Router) {}
+  constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
-    this.loadPaymentsGroupedByStudent();
-  }
-
-  loadPaymentsGroupedByStudent() {
-    this.paymentService.getPayments().subscribe((data: Payment[]) => {
-      this.paymentsByStudent = data.reduce((map, payment) => {
-        // Use payment.student?.studentId as the key, checking for undefined values
-        const studentId = payment.student?.studentId;
-        if (studentId !== undefined) {
-          if (!map[studentId]) {
-            map[studentId] = [];
-          }
-          map[studentId].push(payment);
-        }
-        return map;
-      }, {} as { [studentId: number]: Payment[] });
-  
-      // Set the first payment (if available)
-      if (data.length > 0) {
-        this.firstPayment = data[0];
-      }
+    this.paymentService.getPayments().subscribe(data => {
+      this.groupPaymentsByStudent(data);
     });
   }
 
-  editPayment(studentId: number, paymentId: number | undefined) {
-    if (paymentId !== undefined) {
-      console.log(paymentId);
-      this.router.navigate(['/payments/edit', studentId, paymentId]);
-    } else {
-      console.error('Undefined paymentId');
-    }
+  groupPaymentsByStudent(payments: any[]): void {
+    this.paymentsByStudent = payments.reduce((acc, payment) => {
+      const studentId = payment.studentId;
+      if (!acc[studentId]) {
+        acc[studentId] = [];
+      }
+      acc[studentId].push(payment);
+      return acc;
+    }, {});
   }
-  
-  deletePayment(paymentId: number) {
-    const confirmed = window.confirm('Are you sure you want to delete this payment?');
-    
-    if (confirmed) {
-      this.paymentService.deletePayment(paymentId).subscribe(() => {
-        this.loadPaymentsGroupedByStudent();  // Reload the payments after deletion
-      });
-    }
+
+  calculateOverallDebt(payments: any[]): number {
+    // Calculate overall debt for the student based on payments
+    return payments.reduce((acc, payment) => acc + (payment.debt || 0), 0);
+  }
+
+  calculateRemainingLessons(payment: any): number {
+    // Placeholder logic for calculating remaining lessons
+    return payment.totalLessons - payment.lessonsAttended;
+  }
+
+  getPaymentStatus(payment: any): string {
+    if (payment.debt === 0) return 'Paid';
+    if (payment.debt > 0 && payment.partialPayment) return 'Partial';
+    return 'Due';
+  }
+
+  getPaymentStatusClass(payment: any): string {
+    if (payment.debt === 0) return 'table-success';
+    if (payment.partialPayment) return 'table-warning';
+    return 'table-danger';
+  }*/
+
+    groupsWithStudents: any[] = [];  // This will store the groups with students
+
+  constructor(private groupStudentService: GroupStudentService) {}
+
+  ngOnInit(): void {
+    this.groupStudentService.getGroupsWithStudents().subscribe((data: any[]) => {
+      this.groupsWithStudents = data;  // Ensure data is grouped by groupId
+    });
+  }
+
+  addPayment(groupId: number, studentId: number): void {
+    // Navigate to the payment form page to add a payment
+    // You might use a router for navigation
+    console.log(`Adding payment for student ${studentId} in group ${groupId}`);
+    // Implement navigation logic here, e.g., this.router.navigate(['/payment/add', groupId, studentId]);
   }
 }

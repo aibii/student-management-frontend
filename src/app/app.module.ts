@@ -22,6 +22,7 @@ import { TeacherFormComponent } from './teacher-form/teacher-form.component';
 import { PaymentFormComponent } from './payment-form/payment-form.component';
 import { PaymentListComponent } from './payment-list/payment-list.component';
 import { CourseFormComponent } from './course-form/course-form.component';
+import { GroupStudentListComponent } from './group-student-list/group-student-list.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { CourseFormComponent } from './course-form/course-form.component';
     PaymentFormComponent,
     PaymentListComponent,
     CourseFormComponent,
+    GroupStudentListComponent,
   ],
   imports: [
     BrowserModule,

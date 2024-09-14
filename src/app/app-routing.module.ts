@@ -13,10 +13,12 @@ import { GroupDetailsComponent } from './group-details/group-details.component';
 import { TeacherFormComponent } from './teacher-form/teacher-form.component';
 import { PaymentListComponent } from './payment-list/payment-list.component';
 import { CourseFormComponent } from './course-form/course-form.component';
+import { PaymentFormComponent } from './payment-form/payment-form.component';
 
 const routes: Routes = [
   { path: 'courses', component: CoursesComponent },
   { path: 'payments', component: PaymentListComponent },
+  { path: 'payment/add/:groupId/:studentId', component: PaymentFormComponent },
   { path: 'students', component: StudentComponent },
   { path: 'students/new', component: StudentFormComponent },
   { path: 'students/edit/:id', component: StudentFormComponent },
@@ -26,6 +28,7 @@ const routes: Routes = [
   { path: 'groups/edit/:id', component: GroupFormComponent },
   { path: 'groups/details/:id', component: GroupDetailsComponent },
   { path: 'teachers', component: TeacherComponent },
+  { path: 'teachers/new', component: TeacherFormComponent },
   { path: 'teachers/edit/:id', component: TeacherFormComponent },
   { path: 'teachers/details/:id', component: TeacherProfileComponent }, // Assuming TeacherProfileComponent exists
   { path: 'courses/new', component: CourseFormComponent},
