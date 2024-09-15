@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Groups and Students</h2>
+    
+    <div *ngFor="let group of groupsWithStudents">
+      <h3>{{ group.groupName }}</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Enrollment Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of groupsWithStudents">
+            <td>{{ student.studentFirstName }} {{ student.studentLastName }}</td>
+            <td>{{ student.enrollmentDate | date }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="addPayment(group.groupId, student.studentId)">
+                Add Payment
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

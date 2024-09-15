@@ -1,0 +1,41 @@
+<div class="container">
+  <h2>Группы и ученики</h2>
+  
+  <div *ngFor="let group of groupsWithStudents">
+    <h3>{{ group.groupName }} - Учитель: {{ group.teacherName }}</h3>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Имя ученика</th>
+          <th>Дата регистрации</th>
+          <th>Долг</th> <!-- Отображаем долг -->
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of group.students; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ student.studentFirstName }} {{ student.studentLastName }}</td>
+          <td>{{ student.enrollmentDate | date:'MMM dd, yyyy' }}</td> <!-- Format date -->
+          <td>
+            <span [ngClass]="{
+              'text-success': student.debt === 0,
+              'text-danger': student.debt > 0
+            }">
+              {{ student.debt > 0 ? ('Долг: ' + student.debt + ' сом') : 'Оплачено' }}
+            </span>
+          </td>    
+          <td>
+            <button class="btn btn-primary" (click)="addPayment(group.groupId, student.studentId)">
+              Добавить оплату
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

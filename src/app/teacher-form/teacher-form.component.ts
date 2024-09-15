@@ -12,65 +12,36 @@ import { TeacherService } from '../services/teacher.service';
 })
 
 export class TeacherFormComponent implements OnInit {
-  teacherForm!: FormGroup;
-  isEditMode: boolean = false;
-  teacherId!: number;
+  teacher: any = {};  // You might replace this with a Teacher model
 
   constructor(
-    private formBuilder: FormBuilder,
     private teacherService: TeacherService,
-    private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.teacherForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: [''],
-      dateOfBirth: [''],
-      address: [''],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]] // Ensure this is a number
-    });
-
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.isEditMode = true;
-        this.teacherId = +id;
-        this.loadTeacherData(this.teacherId);
-      } else {
-        this.isEditMode = false;
-      }
-    });
-  }
-
-  loadTeacherData(id: number): void {
-    this.teacherService.getTeacher(id).subscribe(teacher => {
-      this.teacherForm.patchValue(teacher);
-    });
-  }
-
-  onSubmit(): void {
-    if (this.teacherForm.invalid) {
-      return;
+    const teacherId = this.route.snapshot.paramMap.get('id');
+    if (teacherId) {
+      this.teacherService.getTeacher(Number(teacherId)).subscribe(teacher => {
+        this.teacher = teacher;
+      });
     }
-  
-    const teacher: Teacher = this.teacherForm.value;
-  
-    if (this.isEditMode) {
-      this.teacherService.updateTeacher(this.teacherId, teacher).subscribe(() => {
+  }
+
+  saveTeacher() {
+    if (this.teacher.id) {
+      this.teacherService.updateTeacher(this.teacher.id, this.teacher).subscribe(() => {
         this.router.navigate(['/teachers']);
-      }, (error) => {
-        console.error('Update error', error);
       });
     } else {
-      this.teacherService.addTeacher(teacher).subscribe(() => {
+      this.teacherService.addTeacher(this.teacher).subscribe(() => {
         this.router.navigate(['/teachers']);
       });
     }
   }
 
-  onCancel(): void {
+  cancel() {
     this.router.navigate(['/teachers']);
   }
 }

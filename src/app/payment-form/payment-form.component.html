@@ -1,0 +1,14 @@
+<div class="container">
+  <h2>Add Payment for Student</h2>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="amount">Payment Amount</label>
+      <input type="number" id="amount" formControlName="amount" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="datePaid">Date Paid</label>
+      <input type="date" id="datePaid" formControlName="datePaid" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">Submit Payment</button>
+  </form>
+</div>

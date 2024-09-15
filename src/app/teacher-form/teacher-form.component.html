@@ -1,39 +1,67 @@
-<div class="teacher-form-container">
-    <h2>{{ isEditMode ? 'Edit Teacher' : 'Add Teacher' }}</h2>
-    <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input id="firstName" formControlName="firstName" placeholder="Enter first name" />
-        <div *ngIf="teacherForm.controls['firstName'].invalid && teacherForm.controls['firstName'].touched" class="error">
-          First name is required.
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input id="lastName" formControlName="lastName" placeholder="Enter last name" />
-      </div>
-  
-      <div class="form-group">
-        <label for="dateOfBirth">Date of Birth</label>
-        <input id="dateOfBirth" formControlName="dateOfBirth" type="date" />
-      </div>
-  
-      <div class="form-group">
-        <label for="address">Address</label>
-        <input id="address" formControlName="address" placeholder="Enter address" />
-      </div>
-  
-      <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
-        <input id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phone number" />
-        <div *ngIf="teacherForm.controls['phoneNumber'].invalid && teacherForm.controls['phoneNumber'].touched" class="error">
-          Phone number is required and must be numeric.
-        </div>
-      </div>
-  
-      <button type="submit" [disabled]="teacherForm.invalid">{{ isEditMode ? 'Update' : 'Add' }} Teacher</button>
-      <button type="button" (click)="onCancel()">Cancel</button>
-    </form>
-  </div>
+<div class="container">
+  <h2>{{ teacher.id ? 'Edit Teacher' : 'Add Teacher' }}</h2>
+
+  <form (ngSubmit)="saveTeacher()">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        [(ngModel)]="teacher.firstName"
+        name="firstName"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lastName"
+        [(ngModel)]="teacher.lastName"
+        name="lastName"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="dateOfBirth">Date of Birth</label>
+      <input
+        type="date"
+        class="form-control"
+        id="dateOfBirth"
+        [(ngModel)]="teacher.dateOfBirth"
+        name="dateOfBirth"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        [(ngModel)]="teacher.address"
+        name="address"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input
+        type="text"
+        class="form-control"
+        id="phoneNumber"
+        [(ngModel)]="teacher.phoneNumber"
+        name="phoneNumber"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-success">{{ teacher.id ? 'Update Teacher' : 'Create Teacher' }}</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  </form>
+</div>
+
   

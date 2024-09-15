@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';  // <-- Make sure you'v
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
-import { PaymentsComponent } from './payments/payments.component';
 import { StudentComponent } from './students/students.component';
 import { TeacherComponent } from './teachers/teachers.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,13 +19,17 @@ import { StudentFormComponent } from './student-form/student-form.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import { TeacherFormComponent } from './teacher-form/teacher-form.component';
+import { PaymentFormComponent } from './payment-form/payment-form.component';
+import { PaymentListComponent } from './payment-list/payment-list.component';
+import { CourseFormComponent } from './course-form/course-form.component';
+import { GroupStudentListComponent } from './group-student-list/group-student-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CoursesComponent,
-    PaymentsComponent,
+    PaymentListComponent,
     StudentComponent,
     TeacherComponent,
     TeacherProfileComponent,
@@ -37,6 +40,10 @@ import { TeacherFormComponent } from './teacher-form/teacher-form.component';
     StudentDetailsComponent,
     GroupDetailsComponent,
     TeacherFormComponent,
+    PaymentFormComponent,
+    PaymentListComponent,
+    CourseFormComponent,
+    GroupStudentListComponent,
   ],
   imports: [
     BrowserModule,

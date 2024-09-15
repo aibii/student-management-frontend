@@ -49,45 +49,42 @@ toggleAddCourseForm() {
       .subscribe(courses => this.courses = courses);
   }
 
-  addCourse() {
-    this.showAddCourseForm = true;
-}
 
-saveCourse() {
-  let courseData = this.courseForm.value;
+  saveCourse() {
+    let courseData = this.courseForm.value;
 
-  if (this.editingCourseId) {
-        // Update an existing course
-        this.courseService.updateCourse(this.editingCourseId, courseData).subscribe(
-          (updatedCourse: Course) => { // Ensure that updatedCourse is of type Course
-            const index = this.courses.findIndex(c => c.id === this.editingCourseId);
-            if (index !== -1) {
-              this.courses[index] = updatedCourse;
-            }
-        // Reset the form and editing state
-        this.courseForm.reset();
-        this.editingCourseId = null;
-        // Hide the form or perform other UI updates as necessary
-        // ...
-      },
-      error => console.error('Error updating course:', error)
-    );
-  } else {
-    // Add a new course
-    this.courseService.addCourse(courseData).subscribe(
-      newCourse => {
-        // Add the new course to your courses array
-        this.courses.push(newCourse);
+    if (this.editingCourseId) {
+          // Update an existing course
+          this.courseService.updateCourse(this.editingCourseId, courseData).subscribe(
+            (updatedCourse: Course) => { // Ensure that updatedCourse is of type Course
+              const index = this.courses.findIndex(c => c.id === this.editingCourseId);
+              if (index !== -1) {
+                this.courses[index] = updatedCourse;
+              }
+          // Reset the form and editing state
+          this.courseForm.reset();
+          this.editingCourseId = null;
+          // Hide the form or perform other UI updates as necessary
+          // ...
+        },
+        error => console.error('Error updating course:', error)
+      );
+    } else {
+      // Add a new course
+      this.courseService.addCourse(courseData).subscribe(
+        newCourse => {
+          // Add the new course to your courses array
+          this.courses.push(newCourse);
 
-        // Reset the form
-        this.courseForm.reset();
-        // Update the UI as necessary to reflect the addition
-        // ...
-      },
-      error => console.error('Error adding course:', error)
-    );
+          // Reset the form
+          this.courseForm.reset();
+          // Update the UI as necessary to reflect the addition
+          // ...
+        },
+        error => console.error('Error adding course:', error)
+      );
+    }
   }
-}
 
 createForm() {
   this.courseForm = this.fb.group({
@@ -114,6 +111,10 @@ onSubmit() {
       console.error("Form is not valid:", this.courseForm.errors);
   }
 }
+
+  addCourse() {
+    this.router.navigate(['/courses/new']);  // Navigates to the course creation form
+  }
   
   editCourse(course: Course) {
     this.router.navigate(['/courses/edit', course.id]);
