@@ -69,4 +69,19 @@ export class PaymentListComponent implements OnInit {
     console.log(`Adding payment for student ${studentId} in group ${groupId}`);
     // Implement navigation logic here, e.g., this.router.navigate(['/payment/add', groupId, studentId]);
   }
+
+  calculateOverallDebt(payments: any[]): number {
+    // Calculate the total debt based on the remaining payments for the student
+    return payments.reduce((acc, payment) => acc + (payment.status === 'DUE' ? payment.amount : 0), 0);
+  }
+
+  getPaymentStatus(payment: any): string {
+    if (payment.debt === 0) {
+      return 'Paid';  // This should only show "Paid" if debt is zero and a payment has been made
+    }
+    if (payment.debt > 0 && payment.partialPayment) {
+      return 'Partial';  // Handle partial payment case
+    }
+    return 'Due';  // If there's any debt, it should return "Due"
+  }
 }
