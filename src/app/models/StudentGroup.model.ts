@@ -33,6 +33,7 @@ export class StudentGroupId {
     monthlyFee?: number;  // Optional if not always provided
     teacherName?: string; 
     courseName?: string;
+    schedule?: string;
   
     constructor(
       groupName: string,
@@ -44,7 +45,8 @@ export class StudentGroupId {
       endDate?: Date,
       monthlyFee?: number,
       teacherName?: string,
-      courseName?: string
+      courseName?: string,
+      schedule?: string
     ) {
       this.id = id;
       this.groupName = groupName;
@@ -56,5 +58,6 @@ export class StudentGroupId {
       this.monthlyFee = monthlyFee;
       this.teacherName = teacherName;
       this.courseName = courseName;
+      this.schedule = schedule;
     }
   }

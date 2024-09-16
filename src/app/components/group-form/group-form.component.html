@@ -9,7 +9,6 @@
       </div>
     </div>
 
-    
     <div class="form-group">
       <label for="teacherId">Teacher</label>
       <select id="teacherId" formControlName="teacherId">
@@ -27,6 +26,19 @@
     <div class="form-group">
       <label for="description">Description</label>
       <textarea id="description" formControlName="description" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="schedule">Schedule</label>
+      <select id="schedule" formControlName="schedule">
+        <option value="">-- Select Schedule --</option>
+        <option value="Mon-Wed-Fri">Mon-Wed-Fri</option>
+        <option value="Tue-Thu-Sat">Tue-Thu-Sat</option>
+        <option value="Custom">Custom</option>
+      </select>
+      <div *ngIf="groupForm.controls['schedule'].invalid && groupForm.controls['schedule'].touched" class="error">
+        Schedule is required.
+      </div>
     </div>
 
     <div class="form-group">

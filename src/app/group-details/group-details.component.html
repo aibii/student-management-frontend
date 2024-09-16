@@ -6,8 +6,9 @@
     <p><strong>Start Date:</strong> {{ group.startDate | date }}</p>
     <p><strong>End Date:</strong> {{ group.endDate | date }}</p>
     <p><strong>Monthly Fee:</strong> {{ group.monthlyFee | currency:'KGS':'symbol' }}</p>
+    <p><strong>Schedule:</strong> {{ group.schedule }}</p> <!-- Display schedule -->
 
     <button (click)="goBackToList()">Back to List</button>
 </div>
-  
+
   

@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Группы и ученики</h2>
-  
+
   <div *ngFor="let group of groupsWithStudents">
     <h3>{{ group.groupName }} - Учитель: {{ group.teacherName }}</h3>
 
@@ -11,6 +11,7 @@
           <th>Имя ученика</th>
           <th>Дата регистрации</th>
           <th>Долг</th> <!-- Отображаем долг -->
+          <th>Оставшиеся уроки</th> <!-- Display remaining lessons -->
           <th>Действия</th>
         </tr>
       </thead>
@@ -26,7 +27,8 @@
             }">
               {{ student.debt > 0 ? ('Долг: ' + student.debt + ' сом') : 'Оплачено' }}
             </span>
-          </td>    
+          </td>
+          <td>{{ student.remainingLessons }} <!-- Display remaining lessons --> </td>  
           <td>
             <button class="btn btn-primary" (click)="addPayment(group.groupId, student.studentId)">
               Добавить оплату
@@ -37,5 +39,3 @@
     </table>
   </div>
 </div>
-
-

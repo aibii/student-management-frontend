@@ -32,7 +32,7 @@ export class GroupDetailsComponent implements OnInit {
       const id = +idParam;
       console.log('Fetching group details for ID:', id);
       this.classGroupService.getGroupById(id).subscribe(group => {
-        console.log('Group details fetched:', group);
+        console.log('Group details fetched:', group); // Add this line to see the group data
         this.group = group;
         this.loadRelatedDetails();
       }, error => {
