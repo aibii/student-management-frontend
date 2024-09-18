@@ -23,6 +23,9 @@ import { PaymentFormComponent } from './payment-form/payment-form.component';
 import { PaymentListComponent } from './payment-list/payment-list.component';
 import { CourseFormComponent } from './course-form/course-form.component';
 import { GroupStudentListComponent } from './group-student-list/group-student-list.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -51,7 +54,10 @@ import { GroupStudentListComponent } from './group-student-list/group-student-li
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
   providers: [StudentService, ClassGroupService],
   bootstrap: [AppComponent]

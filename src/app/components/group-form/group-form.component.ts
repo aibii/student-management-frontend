@@ -17,8 +17,8 @@ import { ClassGroup } from 'src/app/models/StudentGroup.model';
 
 export class GroupFormComponent implements OnInit {
   groupForm!: FormGroup;
-  teachers!: Teacher[];
-  courses!: Course[];
+  teachers: Teacher[] = [];
+  courses: Course[] = [];
   isEditMode: boolean = false;
   groupId!: number;
 
@@ -37,9 +37,11 @@ export class GroupFormComponent implements OnInit {
       teacherId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Ensure this is a number
       courseId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Ensure this is a number
       description: [''],
-      startDate: [''],
-      endDate: [''],
-      monthlyFee: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]] // Ensure this is a number
+      schedule: ['', Validators.required], // Added schedule field
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      monthlyFee: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]], // Ensure this is a number
+      lessonTime: ['', Validators.required]
     });
 
     this.loadTeachersAndCourses();
@@ -57,33 +59,64 @@ export class GroupFormComponent implements OnInit {
   }
 
   loadGroupData(id: number): void {
-    this.classGroupService.getGroup(id).subscribe(group => {
-      this.groupForm.patchValue(group);
-    });
+    this.classGroupService.getGroup(id).subscribe(
+      (group: ClassGroup) => {
+        if (group) {
+          this.groupForm.patchValue(group);
+        }
+      },
+      (error) => {
+        console.error('Error loading group data:', error);
+      }
+    );
   }
 
-  loadTeachersAndCourses() {
-    this.teacherService.getAllTeachers().subscribe(data => this.teachers = data);
-    this.courseService.getAllCourses().subscribe(data => this.courses = data);
+  loadTeachersAndCourses(): void {
+    this.teacherService.getAllTeachers().subscribe(
+      (teachers: Teacher[]) => {
+        this.teachers = teachers;
+        if (!teachers.length) {
+          console.warn('No teachers found.');
+        }
+      },
+      (error) => {
+        console.error('Error loading teachers:', error);
+      }
+    );
+
+    this.courseService.getAllCourses().subscribe(
+      (courses: Course[]) => {
+        this.courses = courses;
+        if (!courses.length) {
+          console.warn('No courses found.');
+        }
+      },
+      (error) => {
+        console.error('Error loading courses:', error);
+      }
+    );
   }
 
   onSubmit(): void {
     if (this.groupForm.invalid) {
+      console.warn('Form is invalid');
       return;
     }
-  
+
     const group: ClassGroup = this.groupForm.value;
-  
+
     if (this.isEditMode) {
       group.id = this.groupId;
       this.classGroupService.updateGroup(group).subscribe(() => {
         this.router.navigate(['/groups']);
       }, (error) => {
-        console.error('Update error', error);
+        console.error('Update error:', error);
       });
     } else {
       this.classGroupService.createGroup(group).subscribe(() => {
         this.router.navigate(['/groups']);
+      }, (error) => {
+        console.error('Creation error:', error);
       });
     }
   }
