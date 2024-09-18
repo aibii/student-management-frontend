@@ -40,7 +40,8 @@ export class GroupFormComponent implements OnInit {
       schedule: ['', Validators.required], // Added schedule field
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      monthlyFee: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]] // Ensure this is a number
+      monthlyFee: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]], // Ensure this is a number
+      lessonTime: ['', Validators.required]
     });
 
     this.loadTeachersAndCourses();

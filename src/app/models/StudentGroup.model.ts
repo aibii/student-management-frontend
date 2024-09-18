@@ -10,11 +10,12 @@ export class StudentGroupId {
   
   export class StudentGroup {
     id: StudentGroupId;
-    startDate: Date;
+    startDate: String;
     endDate: Date | null;
     classGroup?: ClassGroup;  // Optional property, assuming ClassGroup is another model
-  
-    constructor(id: StudentGroupId, startDate: Date, endDate: Date | null = null, classGroup?: ClassGroup) {
+    
+
+    constructor(id: StudentGroupId, startDate: String, endDate: Date | null = null, classGroup?: ClassGroup) {
       this.id = id;
       this.startDate = startDate;
       this.endDate = endDate;

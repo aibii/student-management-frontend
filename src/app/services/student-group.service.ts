@@ -17,7 +17,7 @@ export class StudentGroupService {
 
   assignStudentToGroup(studentGroup: StudentGroup): Observable<StudentGroup> {
     return this.http.post<StudentGroup>(this.baseUrl, studentGroup);
- }
+  }
 
   removeStudentFromGroup(studentGroupId: { studentId: number, groupId: number }): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${studentGroupId.studentId}/${studentGroupId.groupId}`);

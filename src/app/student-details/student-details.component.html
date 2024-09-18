@@ -1,38 +1,43 @@
 <div class="student-details-container">
-    <h2>Student Details</h2>
-    <div *ngIf="student">
-      <p><strong>ID:</strong> {{ student.studentId }}</p>
-      <p><strong>First Name:</strong> {{ student.firstName }}</p>
-      <p><strong>Last Name:</strong> {{ student.lastName }}</p>
-      <p><strong>Gender:</strong> {{ student.gender }}</p>
-      <p><strong>Date of Birth:</strong> {{ student.dateOfBirth | date }}</p>
-      <p><strong>School:</strong> {{ student.school }}</p>
-      <p><strong>Grade:</strong> {{ student.grade }}</p>
-      <p><strong>Session:</strong> {{ student.session }}</p>
-      <p><strong>Address:</strong> {{ student.address }}</p>
-      <p><strong>Student Phone:</strong> {{ student.studentPhone }}</p>
-      <p><strong>Parent Phone:</strong> {{ student.parentPhone }}</p>
+  <h2>Student Details</h2>
+  <div *ngIf="student">
+    <p><strong>ID:</strong> {{ student.studentId }}</p>
+    <p><strong>First Name:</strong> {{ student.firstName }}</p>
+    <p><strong>Last Name:</strong> {{ student.lastName }}</p>
+    <p><strong>Gender:</strong> {{ student.gender }}</p>
+    <p><strong>Date of Birth:</strong> {{ student.dateOfBirth | date }}</p>
+    <p><strong>School:</strong> {{ student.school }}</p>
+    <p><strong>Grade:</strong> {{ student.grade }}</p>
+    <p><strong>Session:</strong> {{ student.session }}</p>
+    <p><strong>Address:</strong> {{ student.address }}</p>
+    <p><strong>Student Phone:</strong> {{ student.studentPhone }}</p>
+    <p><strong>Parent Phone:</strong> {{ student.parentPhone }}</p>
 
-      <h3>Groups</h3>
-      <ul>
-        <li *ngFor="let group of studentGroups">
-          {{ group.classGroup?.groupName }}  <!-- Safe navigation to avoid errors if classGroup is undefined -->
-          <button (click)="removeFromGroup(group.id.groupId)">Remove</button>
-        </li>
-      </ul>
-    
-      <h4>Assign to New Group</h4>
-      <form (ngSubmit)="assignToGroup()">
-        <label for="group">Select Group:</label>
-        <select id="group" [(ngModel)]="selectedGroupId" name="group">
-          <option *ngFor="let group of allGroups" [value]="group.id">{{ group.groupName }}</option>
-        </select>
-        <button type="submit">Assign</button>
-      </form>
+    <h3>Groups</h3>
+    <ul>
+      <li *ngFor="let group of studentGroups">
+        {{ group.classGroup?.groupName }}  <!-- Safe navigation to avoid errors if classGroup is undefined -->
+        <button (click)="removeFromGroup(group.id.groupId)">Remove</button>
+      </li>
+    </ul>
 
+    <h4>Assign to New Group</h4>
+    <form (ngSubmit)="assignToGroup()">
+      <label for="group">Select Group:</label>
+      <select id="group" [(ngModel)]="selectedGroupId" name="group">
+        <option *ngFor="let group of allGroups" [value]="group.id">{{ group.groupName }}</option>
+      </select>
 
-      <button routerLink="/students/edit/{{ student.studentId }}">Edit</button>
-      <button routerLink="/students">Back to List</button>
-    </div>
+      <!-- Date picker for start date -->
+  <label for="startDate">Select Start Date:</label>
+  <input type="date" id="startDate" [(ngModel)]="selectedStartDate" name="startDate" [min]="nextAvailableLessonDate | date:'yyyy-MM-dd'">
+
+  <button type="submit">Assign</button>
+    </form>
+
+    <button routerLink="/students/edit/{{ student.studentId }}">Edit</button>
+    <button routerLink="/students">Back to List</button>
   </div>
+</div>
+
   
